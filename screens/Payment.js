@@ -17,7 +17,6 @@ class Payment extends Component {
     const { navigation } = this.props
     let orders = navigation.getParam('orders')
 
-
     orders = orders.filter(el => {
       return el.order !== 0
     })
@@ -28,7 +27,8 @@ class Payment extends Component {
         quantity: order.order,
         name: order.name,
         price: order.price,
-        status: 0
+        status: 0,
+        notes: ''
       }
     })
     this.setState({
@@ -52,7 +52,6 @@ class Payment extends Component {
   }
 
   async submitPay() {
-    this.setState({ payButton: <ActivityIndicator size='large' color='#f64747' /> })
     let objCreate = {
       // userId: 'LgGX3gRskZcbvVrPjFGms9IWXIO2',
       userId: 'AeMLsz3FUDXFgvI0tnMfD0CUHOo2',
@@ -61,11 +60,17 @@ class Payment extends Component {
       status: 0
     }
 
-    // if (this.props.subtotal > saldo) {
-    //   Alert.alert('Saldo tidak cukup')
-    // } else {
-    await this.props.createOrder(objCreate)
-    // }
+    let subtotal = 0
+    this.state.orders.forEach(l => {
+      subtotal += l.price * l.quantity
+    })
+
+    if (subtotal > Number(this.props.saldo.replace(/[^0-9]+/g, ""))) {
+      Alert.alert('Your balance is not enough to complete the order')
+    } else {
+      this.setState({ payButton: <ActivityIndicator size='large' color='#f64747' /> })
+      await this.props.createOrder(objCreate)
+    }
 
     if (!this.props.loadingCreate) {
       this.props.navigation.navigate('Home')
@@ -100,7 +105,8 @@ class Payment extends Component {
 }
 
 const mapStateToProps = state => ({
-  loadingCreate: state.api.loadingCreate
+  loadingCreate: state.api.loadingCreate,
+  saldo: state.api.saldo
 })
 
 const mapDispatchToProps = dispatch => ({

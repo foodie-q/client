@@ -1,7 +1,14 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Text, View, TouchableOpacity, TouchableHighlight, StyleSheet } from 'react-native'
+import localStorage from '../helpers/localStorage'
+import { getSaldo } from '../store/actions/api'
 
-export default class Home extends Component {
+class Home extends Component {
+  async componentWillMount() {
+    this.props.getSaldo(await localStorage.getItem('userId'))
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -48,3 +55,9 @@ const styles = StyleSheet.create({
     color: '#f64747'
   }
 })
+
+const mapDispatchToProps = dispatch => ({
+  getSaldo: (userId) => dispatch(getSaldo(userId))
+})
+
+export default connect(null, mapDispatchToProps)(Home)

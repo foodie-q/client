@@ -1,6 +1,7 @@
-import { FETCH_MENUS, ORDER_FOOD, GET_SALDO, CREATE_ORDER } from '../actions/types'
+import { FETCH_MENUS, ORDER_FOOD, GET_SALDO, CREATE_ORDER, FIND_USER } from '../actions/types'
 
 const initialState = {
+  user: '',
   menus: [],
   saldo: 0,
   isLoading: true,
@@ -9,6 +10,11 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
+    case FIND_USER:
+      return {
+        ...state,
+        user: payload
+      }
     case FETCH_MENUS:
       return {
         ...state,
