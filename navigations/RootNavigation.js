@@ -5,8 +5,9 @@ import { createAppContainer, createMaterialTopTabNavigator, createStackNavigator
 
 // screens 
 import Home from '../screens/Home'
-import ReserveTable from '../screens/ReserveTable'
 import Orders from '../screens/Orders'
+import Profile from '../screens/Profile'
+import ReserveTable from '../screens/ReserveTable'
 import Menus from '../screens/Menus'
 import Payment from '../screens/Payment'
 
@@ -39,6 +40,12 @@ const HomeNavigator = createStackNavigator({
   }
 })
 
+const ProfileNavigator = createStackNavigator({
+  Profile: {
+    screen: Profile
+  }
+})
+
 const OrdersNavigator = createStackNavigator({
   Orders: {
     screen: Orders
@@ -60,6 +67,13 @@ const RootNavigation = createMaterialTopTabNavigator({
       tabBarLabel: 'Orders',
       tabBarIcon: ({ tintColor }) => (<Icon name="ios-restaurant" color={tintColor} size={24} />
       )
+    }
+  },
+  Profile: {
+    screen: ProfileNavigator,
+    navigationOptions: {
+      tabBarLabel: 'Profile',
+      tabBarIcon: ({ tintColor }) => (<Icon name="ios-person" color={tintColor} size={24} />)
     }
   }
 }, {

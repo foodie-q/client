@@ -1,5 +1,5 @@
 import * as types from './actionTypes'
-
+import localStorage from '../../helpers/localStorage'
 import Axios from 'axios'
 
 // export function restoreSession() {
@@ -24,15 +24,15 @@ export function login(email, password) {
     dispatch(sessionLoading())
 
     Axios({
-      url: 'http://localhost:3000/users/login',
+      url: 'http://10.0.2.2:3000/users/login',
       method: 'post',
       data: {
         email,
         password
       }
     })
-    .then(({data}) => {
-        console.log(data)
+    .then(async ({data}) => {
+        await localStorage.setItem('userId', data.uid)
         dispatch(sessionSuccess(data))
     })
     .catch(err => {
@@ -45,7 +45,7 @@ export function register(email, password, name, role) {
   return (dispatch) => {
     dispatch(sessionLoading())
     Axios({
-      url: 'http://localhost:3000/users/register',
+      url: 'http://10.0.2.2:3000/users/register',
       method: 'post',
       data: {
         email,
@@ -70,7 +70,7 @@ export function logout() {
     dispatch(sessionLoading())
 
     Axios({
-      url: 'localhost:3000/users/logout'
+      url: '10.0.2.2:3000/users/logout'
     })
     .then(() => {
       dispatch(sessionLogout())

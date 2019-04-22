@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Text, View, Image, TouchableOpacity, ActivityIndicator, Button, FlatList, Modal, Alert } from 'react-native'
-import { fetchMenus, orderFood, getSaldo } from '../store/actions/api'
+import { fetchMenus, orderFood } from '../store/actions/api'
 
 class Menus extends Component {
   state = {
@@ -25,11 +25,6 @@ class Menus extends Component {
     await this.props.fetchMenus()
     await this.props.navigation.setParams({ saldo: this.props.saldo })
   }
-
-  async componentWillMount() {
-    await this.props.getSaldo()
-  }
-
 
   changeToCurrency(input) {
     return 'Rp ' + input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
@@ -162,7 +157,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchMenus: () => dispatch(fetchMenus()),
   orderFood: (list, id, options) => dispatch(orderFood(list, id, options)),
-  getSaldo: () => dispatch(getSaldo())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menus)

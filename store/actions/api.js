@@ -1,14 +1,14 @@
 import axios from 'axios'
-import { FETCH_MENUS, ORDER_FOOD, GET_SALDO, CREATE_ORDER, ERROR } from '../actions/types'
+import { FETCH_MENUS, ORDER_FOOD, GET_SALDO, CREATE_ORDER, FIND_USER, ERROR } from '../actions/types'
+
+const baseURL = axios.create({
+  baseURL: 'http://10.0.2.2:3000'
+})
 
 export const fetchMenus = () => async (dispatch) => {
   let payload = []
-  let { data } = await axios
-<<<<<<< HEAD
-    .get('http://localhost:3000/menus')
-=======
-    .get('http://10.0.2.2:3000/menus')
->>>>>>> change localhost to android's localhost
+  let { data } = await baseURL
+    .get('/menus')
 
   if (data) {
     payload = data.map(menu => ({ ...menu, order: 0 }))
@@ -41,13 +41,9 @@ export const orderFood = (list, id, options) => (dispatch) => {
   })
 }
 
-export const getSaldo = () => async (dispatch) => {
+export const getSaldo = (userId) => async (dispatch) => {
   let saldo = 0
-<<<<<<< HEAD
-  let { data } = await axios.get('http://localhost:3000/users/saldo/LgGX3gRskZcbvVrPjFGms9IWXIO2')
-=======
-  let { data } = await axios.get('http://10.0.2.2:3000/users/saldo/LgGX3gRskZcbvVrPjFGms9IWXIO2')
->>>>>>> change localhost to android's localhost
+  let { data } = await baseURL.get(`/users/saldo/${userId}`)
 
   if (data) {
     saldo = data
@@ -61,13 +57,24 @@ export const getSaldo = () => async (dispatch) => {
 
 export const createOrder = (objCreate) => async (dispatch) => {
   try {
-<<<<<<< HEAD
-    let { data } = await axios.post('http://localhost:3000/users/order', { payload: objCreate })
-=======
-    let { data } = await axios.post('http://10.0.2.2:3000/users/order', { payload: objCreate })
->>>>>>> change localhost to android's localhost
+    let { data } = await baseURL.post('/users/order', { payload: objCreate })
     dispatch({
       type: CREATE_ORDER,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: error.message
+    })
+  }
+}
+
+export const findUser = (userId) => async (dispatch) => {
+  try {
+    let { data } = await baseURL.get(`/users/${userId}`)
+    dispatch({
+      type: FIND_USER,
       payload: data
     })
   } catch (error) {
