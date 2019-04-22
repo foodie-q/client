@@ -15,13 +15,10 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Provider store={store}>
-<<<<<<< HEAD
           <StyleProvider style={getTheme(themes)}>
-            <RootNavigation />
+              <BeforeHome />
           </StyleProvider>
-=======
-          <BeforeHome />
->>>>>>> fitur login
+          
         </Provider>
       </View>
     );

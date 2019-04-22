@@ -4,7 +4,7 @@ import { FETCH_MENUS, ORDER_FOOD, GET_SALDO, CREATE_ORDER, ERROR } from '../acti
 export const fetchMenus = () => async (dispatch) => {
   let payload = []
   let { data } = await axios
-    .get('http://172.16.1.253:3000/menus')
+    .get('http://localhost:3000/menus')
 
   if (data) {
     payload = data.map(menu => ({ ...menu, order: 0 }))
@@ -39,7 +39,7 @@ export const orderFood = (list, id, options) => (dispatch) => {
 
 export const getSaldo = () => async (dispatch) => {
   let saldo = 0
-  let { data } = await axios.get('http://172.16.1.253:3000/users/saldo/LgGX3gRskZcbvVrPjFGms9IWXIO2')
+  let { data } = await axios.get('http://localhost:3000/users/saldo/LgGX3gRskZcbvVrPjFGms9IWXIO2')
 
   if (data) {
     saldo = data
@@ -53,7 +53,7 @@ export const getSaldo = () => async (dispatch) => {
 
 export const createOrder = (objCreate) => async (dispatch) => {
   try {
-    let { data } = await axios.post('http://172.16.1.253:3000/users/order', { payload: objCreate })
+    let { data } = await axios.post('http://localhost:3000/users/order', { payload: objCreate })
     dispatch({
       type: CREATE_ORDER,
       payload: data
