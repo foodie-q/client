@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {Alert, FlatList, View} from 'react-native'
 import {Body, Button, ListItem, Text} from 'native-base'
 
-import {dbOrders, dbOnGoing} from "../../helpers/firebase";
-import * as menus from "../../helpers/firebase/menus";
-import * as users from "../../helpers/firebase/users";
+import {dbOrders, dbOnGoing} from "../../../helpers/firebase";
+import * as menus from "../../../helpers/firebase/menus";
+import * as users from "../../../helpers/firebase/users";
 import styles from "./styles";
 
 // const query = dbOrders.where("status", "==", 1).orderBy('createdAt');

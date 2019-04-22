@@ -3,10 +3,10 @@ import {View, FlatList, Alert} from 'react-native'
 import {Text, ListItem, Body, Button} from 'native-base'
 
 import styles from './styles'
-import {dbOrders} from "../../helpers/firebase";
+import {dbOrders} from "../../../helpers/firebase";
 
-import * as menus from "../../helpers/firebase/menus";
-import * as users from "../../helpers/firebase/users";
+import * as menus from "../../../helpers/firebase/menus";
+import * as users from "../../../helpers/firebase/users";
 
 const query = dbOrders.where("status", "==", 0).orderBy('createdAt');
 
