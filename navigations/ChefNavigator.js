@@ -1,8 +1,8 @@
 import {createMaterialTopTabNavigator} from "react-navigation";
 
-import ChefMenuList from '../screens/ChefMenuList'
-import ChefMenuAccepted from '../screens/ChefMenuAccepted'
-import ChefMenuDone from '../screens/ChefMenuDone'
+import ChefMenuList from '../screens/Chef/ChefMenuList'
+import ChefMenuAccepted from '../screens/Chef/ChefMenuAccepted'
+import ChefMenuDone from '../screens/Chef/ChefMenuDone'
 
 const ChefNavigator = createMaterialTopTabNavigator({
   ChefList: {
