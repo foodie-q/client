@@ -24,7 +24,7 @@ export function login(email, password) {
     dispatch(sessionLoading())
 
     Axios({
-      url: 'http://10.0.2.2:3000/users/login',
+      url: 'http://192.168.43.145:3000/users/login',
       method: 'post',
       data: {
         email,
@@ -45,7 +45,7 @@ export function register(email, password, name, role) {
   return (dispatch) => {
     dispatch(sessionLoading())
     Axios({
-      url: 'http://10.0.2.2:3000/users/register',
+      url: 'http://192.168.43.145:3000/users/register',
       method: 'post',
       data: {
         email,
@@ -70,7 +70,7 @@ export function logout() {
     dispatch(sessionLoading())
 
     Axios({
-      url: '10.0.2.2:3000/users/logout'
+      url: '192.168.43.145:3000/users/logout'
     })
     .then(() => {
       dispatch(sessionLogout())

@@ -17,7 +17,7 @@ class Home extends Component {
         </Text>
         <TouchableOpacity
           style={styles.touchableOpacity}
-          onPress={() => this.props.navigation.navigate('Menus', { from: 'scan' })}
+          onPress={() => this.props.navigation.navigate('ScanQR')}
         >
           <Text style={{ textAlign: 'center', color: '#fff' }}>
             SCAN QR CODE
