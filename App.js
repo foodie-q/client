@@ -1,8 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Provider } from 'react-redux'
-import RootNavigation from './navigations/RootNavigation'
 import store from './store'
+import BeforeHome from './screens/BeforeHome'
+
 
 // Native Base
 import {StyleProvider} from 'native-base'
@@ -14,9 +15,13 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Provider store={store}>
+<<<<<<< HEAD
           <StyleProvider style={getTheme(themes)}>
             <RootNavigation />
           </StyleProvider>
+=======
+          <BeforeHome />
+>>>>>>> fitur login
         </Provider>
       </View>
     );
@@ -28,3 +33,7 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
+
+
+
+
