@@ -16,7 +16,10 @@ export default class Home extends Component {
             SCAN QR CODE
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.touchableOpacity}>
+        <TouchableOpacity
+          style={styles.touchableOpacity}
+          onPress={() => this.props.navigation.navigate('ReserveTable')}
+        >
           <Text style={{ textAlign: 'center', color: '#fff' }}>
             RESERVE TABLE
           </Text>

@@ -1,29 +1,47 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Text, View, Image, TouchableOpacity, ActivityIndicator, Button, FlatList, Modal, Alert } from 'react-native'
-import { fetchFoods, orderFood } from '../store/actions/api'
+import { fetchMenus, orderFood, getSaldo } from '../store/actions/api'
 
 class Menus extends Component {
   state = {
     orders: [],
-    modalVisible: false
+    modalVisible: false,
+    saldo: 0
   }
 
-  componentDidMount() {
-    this.props.fetchFoods()
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerRight: (
+        <TouchableOpacity style={{ backgroundColor: 'orange', padding: 10, marginRight: 20, borderRadius: 20 }}>
+          <Text style={{ color: '#fff' }}>{navigation.getParam('saldo')}</Text>
+        </TouchableOpacity>
+      ),
+      headerLeft: null
+    }
   }
+
+  async componentDidMount() {
+    await this.props.fetchMenus()
+    await this.props.navigation.setParams({ saldo: this.props.saldo })
+  }
+
+  async componentWillMount() {
+    await this.props.getSaldo()
+  }
+
 
   changeToCurrency(input) {
-    return 'Rp ' + input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    return 'Rp ' + input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
   }
 
   addToBasket(id, options) {
-    this.props.orderFood(this.props.foods, id, options)
+    this.props.orderFood(this.props.menus, id, options)
   }
 
   checkOrder() {
     let haveOrder = false
-    this.props.foods.forEach(food => {
+    this.props.menus.forEach(food => {
       if (food.order) {
         haveOrder = true
       }
@@ -32,7 +50,7 @@ class Menus extends Component {
     if (haveOrder) {
       return (
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('Payment', { orders: this.props.foods })}
+          onPress={() => this.props.navigation.navigate('Payment', { orders: this.props.menus })}
           style={{
             backgroundColor: 'orange',
             marginTop: 10,
@@ -55,13 +73,13 @@ class Menus extends Component {
       if (item.order) {
         return (<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 20 }}>
           <TouchableOpacity
-            onPress={this.addToBasket.bind(this, item.recipe_id, 'reduce')}
+            onPress={this.addToBasket.bind(this, item.id, 'reduce')}
             style={{ backgroundColor: 'orange', width: 20, height: 20, borderRadius: 5 }}>
             <Text style={{ textAlign: 'center', color: '#fff' }}>-</Text>
           </TouchableOpacity>
           <Text style={{ textAlign: 'center', marginHorizontal: 10 }}>{item.order}</Text>
           <TouchableOpacity
-            onPress={this.addToBasket.bind(this, item.recipe_id, 'add')}
+            onPress={this.addToBasket.bind(this, item.id, 'add')}
             style={{ backgroundColor: 'orange', width: 20, height: 20, borderRadius: 5 }}>
             <Text style={{ textAlign: 'center', color: '#fff' }}>+</Text>
           </TouchableOpacity>
@@ -69,7 +87,7 @@ class Menus extends Component {
       } else {
         return (<TouchableOpacity
           style={{ backgroundColor: 'orange', padding: 5, borderRadius: 10, marginTop: 20 }}
-          onPress={this.addToBasket.bind(this, item.recipe_id, 'add')}>
+          onPress={this.addToBasket.bind(this, item.id, 'add')}>
           <Text style={{ fontSize: 10, color: '#fff' }}>
             ADD TO BASKET
           </Text>
@@ -80,7 +98,7 @@ class Menus extends Component {
       this.props.isLoading ? <ActivityIndicator size='large' color='#f64747' /> :
         <View style={{ flex: 1 }}>
           <View style={{ flex: 1 }}>
-            <FlatList data={this.props.foods} renderItem={({ item }) => (
+            <FlatList data={this.props.menus} renderItem={({ item }) => (
               <TouchableOpacity
                 style={{
                   flex: 1,
@@ -88,19 +106,19 @@ class Menus extends Component {
                   paddingVertical: 15,
                   paddingHorizontal: 10
                 }}
-                key={item.recipe_id}>
-                <Image source={{ uri: item.image_url }} style={{ width: 100, height: 100, borderRadius: 5 }} />
+                key={item.id}>
+                <Image source={{ uri: item.image }} style={{ width: 100, height: 100, borderRadius: 5 }} />
                 <View style={{ flex: 1.5, paddingLeft: 10 }}>
-                  <Text>{item.title}</Text>
+                  <Text>{item.name}</Text>
                   <Text style={{ fontSize: 10, color: 'grey' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus facilisis.</Text>
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Text style={{ textAlign: 'center' }}>{this.changeToCurrency(item.title.length * 1000)}</Text>
+                  <Text style={{ textAlign: 'center' }}>{this.changeToCurrency(item.price)}</Text>
                   {checkItem(item)}
                 </View>
               </TouchableOpacity>
             )}
-              keyExtractor={(item) => item.recipe_id}
+              keyExtractor={(item) => item.id}
             />
           </View>
           {
@@ -136,13 +154,15 @@ class Menus extends Component {
 }
 
 const mapStateToProps = state => ({
-  foods: state.api.foods,
-  isLoading: state.api.isLoading
+  menus: state.api.menus,
+  isLoading: state.api.isLoading,
+  saldo: state.api.saldo
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchFoods: () => dispatch(fetchFoods()),
-  orderFood: (list, id, options) => dispatch(orderFood(list, id, options))
+  fetchMenus: () => dispatch(fetchMenus()),
+  orderFood: (list, id, options) => dispatch(orderFood(list, id, options)),
+  getSaldo: () => dispatch(getSaldo())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menus)
