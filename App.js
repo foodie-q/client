@@ -4,12 +4,19 @@ import { Provider } from 'react-redux'
 import RootNavigation from './navigations/RootNavigation'
 import store from './store'
 
+// Native Base
+import {StyleProvider} from 'native-base'
+import getTheme from './native-base-theme/components';
+import themes from './native-base-theme/variables/themes';
+
 export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
         <Provider store={store}>
-          <RootNavigation />
+          <StyleProvider style={getTheme(themes)}>
+            <RootNavigation />
+          </StyleProvider>
         </Provider>
       </View>
     );
