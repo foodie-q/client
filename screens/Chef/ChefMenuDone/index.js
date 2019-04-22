@@ -18,52 +18,36 @@ class ChefMenuDone extends Component {
   componentDidMount() {
     query
       .onSnapshot(
-        async (orders) => {
-          var tableList = {};
-          await Promise.all(
-            orders.docs.map(async (doc) => {
-              let order = {key: doc.id, ...(await doc.data())};
-              let menu = await menus.findById(order.menuId + '');
-              let user = await users.findById(order.userId + '');
-              let pointer = tableList[order.userId];
-              if (pointer) {
-                tableList[order.userId + ''].order.push({
-                  key: menu.id,
-                  name: menu.name,
-                  image: menu.image,
-                  note: menu.note,
-                  status: order.status
-                });
-              } else {
-                tableList[order.userId + ''] = {
-                  key: order.userId,
-                  table: user.table,
-                  createdAt: order.createdAt.seconds,
-                  order: [{
-                    key: menu.id,
-                    name: menu.name,
-                    image: menu.image,
-                    note: menu.note,
-                    status: order.status
-                  }],
-                }
-              }
-              return order;
-            })
-          );
-          let data = [];
-          for (let key in tableList) {
-            if (tableList.hasOwnProperty(key)) {
-              data.push(tableList[key]);
-            }
-          }
-          data.sort((a, b) => {
-            return a.createdAt - b.createdAt
-          });
-          this.setState({
-            data
-          });
+        async () => {
+          query
+            .get()
+            .then(async (orders) => {
 
+              let data = await Promise.all(
+                orders.docs.map(async (doc) => {
+                  let order = {key: doc.id, ...doc.data()};
+                  order['user'] = await users.findById(order.userId);
+                  delete order['userId'];
+
+                  order.menus = await Promise.all(await order.menus.map(async (item, i) => {
+                    const menu = await menus.findById(item.id);
+
+                    let data = {menuId: item.id, ...item};
+                    data['image'] = menu.image;
+
+                    return data;
+                  }));
+
+                  return order;
+                })
+              );
+              this.setState({
+                data
+              });
+            })
+            .catch((e) => {
+              console.log(e.message)
+            });
         },
         (err) => {
           console.log(err)
@@ -95,8 +79,8 @@ class ChefMenuDone extends Component {
     return (
       <ImageBackground source={{uri: '' + item.image}} style={[styles.listItem]}>
         {
-          item.status + '' === '0'
-            ? <Text style={{backgroundColor: 'white', opacity: 0.5, height: '100%', width: '100%'}}> </Text>
+          item.status + '' !== '0'
+            ? <Text style={{backgroundColor: 'white', opacity: 0.8, height: '100%', width: '100%'}}> </Text>
             : <Text/>
         }
       </ImageBackground>
@@ -111,7 +95,7 @@ class ChefMenuDone extends Component {
           data={data}
           onEndReachedThreshold={0}
           contentContainerStyle={styles.list}
-          keyExtractor={(item, index) => 'menu-list-done'+item.key}
+          keyExtractor={(item, index) => 'menu-list-done' + item.key}
           renderItem={({item, index}) => {
             return (
               <View>
@@ -119,23 +103,14 @@ class ChefMenuDone extends Component {
                   style={{flex: 1, justifyContent: 'space-between'}}
                   itemDivider
                 >
-                  <Text>Table {item.table}</Text>
-                  <Button
-                    onPress={() => {
-                      this.setAccepted(item)
-                    }}
-                  >
-                    <Text>
-                      Serve
-                    </Text>
-                  </Button>
+                  <Text>Table {item.user.table}</Text>
                 </ListItem>
                 <FlatList
-                  data={item.order}
+                  data={item.menus}
                   onEndReachedThreshold={0}
                   contentContainerStyle={styles.listItemContainer}
                   numColumns={5}
-                  keyExtractor={(item, index) => 'menu-list-item-done'+item.key}
+                  keyExtractor={(item, index) => 'menu-list-item-done' + item.key}
                   renderItem={this.renderItem}
                 />
               </View>

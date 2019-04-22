@@ -1,7 +1,6 @@
 import {createMaterialTopTabNavigator} from "react-navigation";
 
 import ChefMenuList from '../screens/Chef/ChefMenuList'
-import ChefMenuAccepted from '../screens/Chef/ChefMenuAccepted'
 import ChefMenuDone from '../screens/Chef/ChefMenuDone'
 
 const ChefNavigator = createMaterialTopTabNavigator({
@@ -9,12 +8,6 @@ const ChefNavigator = createMaterialTopTabNavigator({
     screen: ChefMenuList,
     navigationOptions: {
       title: 'Todo'
-    }
-  },
-  ChefAccepted: {
-    screen: ChefMenuAccepted,
-    navigationOptions: {
-      title: 'Ongoing'
     }
   },
   ChefDone: {

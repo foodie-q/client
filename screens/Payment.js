@@ -54,7 +54,8 @@ class Payment extends Component {
   async submitPay() {
     this.setState({ payButton: <ActivityIndicator size='large' color='#f64747' /> })
     let objCreate = {
-      userId: 'LgGX3gRskZcbvVrPjFGms9IWXIO2',
+      // userId: 'LgGX3gRskZcbvVrPjFGms9IWXIO2',
+      userId: 'AeMLsz3FUDXFgvI0tnMfD0CUHOo2',
       menus: this.state.orders,
       createdAt: new Date(),
       status: 0
@@ -63,7 +64,7 @@ class Payment extends Component {
     // if (this.props.subtotal > saldo) {
     //   Alert.alert('Saldo tidak cukup')
     // } else {
-    await this.props.createOrder({ objCreate })
+    await this.props.createOrder(objCreate)
     // }
 
     if (!this.props.loadingCreate) {

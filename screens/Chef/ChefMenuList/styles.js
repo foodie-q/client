@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
   listItemContainer: {
     justifyContent: 'flex-start',
     flexDirection: 'row',
-    flexWrap: 'wrap',
   },
   listItem: {
     flex: 1,
