@@ -88,7 +88,7 @@ class Menus extends Component {
         return (<TouchableOpacity
           style={{ backgroundColor: 'orange', padding: 5, borderRadius: 10, marginTop: 20 }}
           onPress={this.addToBasket.bind(this, item.id, 'add')}>
-          <Text style={{ fontSize: 10, color: '#fff' }}>
+          <Text style={{ fontSize: 10, color: '#fff', textAlign: 'center' }}>
             ADD TO BASKET
           </Text>
         </TouchableOpacity>)

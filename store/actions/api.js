@@ -4,7 +4,11 @@ import { FETCH_MENUS, ORDER_FOOD, GET_SALDO, CREATE_ORDER, ERROR } from '../acti
 export const fetchMenus = () => async (dispatch) => {
   let payload = []
   let { data } = await axios
+<<<<<<< HEAD
     .get('http://localhost:3000/menus')
+=======
+    .get('http://10.0.2.2:3000/menus')
+>>>>>>> change localhost to android's localhost
 
   if (data) {
     payload = data.map(menu => ({ ...menu, order: 0 }))
@@ -39,7 +43,11 @@ export const orderFood = (list, id, options) => (dispatch) => {
 
 export const getSaldo = () => async (dispatch) => {
   let saldo = 0
+<<<<<<< HEAD
   let { data } = await axios.get('http://localhost:3000/users/saldo/LgGX3gRskZcbvVrPjFGms9IWXIO2')
+=======
+  let { data } = await axios.get('http://10.0.2.2:3000/users/saldo/LgGX3gRskZcbvVrPjFGms9IWXIO2')
+>>>>>>> change localhost to android's localhost
 
   if (data) {
     saldo = data
@@ -53,7 +61,11 @@ export const getSaldo = () => async (dispatch) => {
 
 export const createOrder = (objCreate) => async (dispatch) => {
   try {
+<<<<<<< HEAD
     let { data } = await axios.post('http://localhost:3000/users/order', { payload: objCreate })
+=======
+    let { data } = await axios.post('http://10.0.2.2:3000/users/order', { payload: objCreate })
+>>>>>>> change localhost to android's localhost
     dispatch({
       type: CREATE_ORDER,
       payload: data
