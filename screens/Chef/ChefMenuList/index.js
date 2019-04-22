@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {View, FlatList, Alert} from 'react-native'
-import {Text, ListItem, Body, Button} from 'native-base'
+import {Alert, FlatList, View} from 'react-native'
+import {Body, Button, ListItem, Text} from 'native-base'
 
 import styles from './styles'
 import {dbOrders} from "../../../helpers/firebase";
@@ -8,7 +8,7 @@ import {dbOrders} from "../../../helpers/firebase";
 import * as menus from "../../../helpers/firebase/menus";
 import * as users from "../../../helpers/firebase/users";
 
-const query = dbOrders.where("status", "==", 0).orderBy('createdAt');
+const query = dbOrders.where("status", "==", 0).limit(5).orderBy('createdAt');
 
 class ChefMenuList extends Component {
   state = {
@@ -19,56 +19,77 @@ class ChefMenuList extends Component {
   componentDidMount() {
     query
       .onSnapshot(
-        async (orders) => {
-          let menu = {};
-          await Promise.all(
-            orders.docs.map(async (doc) => {
-              let order = {key: doc.id, ...doc.data()};
-              order['menu'] = await menus.findById(order.menuId.id);
-              order['user'] = await users.findById(order.userId.id);
+        async () => {
+          query
+            .get()
+            .then(async (orders) => {
+              let dataMenu = {};
+              await Promise.all(
+                orders.docs.map(async (doc) => {
+                  let order = {key: doc.id, ...doc.data()};
+                  order['user'] = await users.findById(order.userId);
+                  delete order['userId'];
 
-              let pointer = menu[order.menu.id];
-              if (pointer && pointer.order.length < order.menu.max) {
-                menu[order.menu.id].order.push({
-                  id: doc.id,
-                  note: order.note,
-                  table: order.user.table
-                });
-                menu[order.menu.id].time += (+order.menu.time * 0.1);
-              } else {
-                menu[order.menu.id] = {
-                  menuId: order.menu.id,
-                  image: order.menu.image,
-                  name: order.menu.name,
-                  order: [{
-                    id: doc.id,
-                    note: order.note,
-                    table: order.user.table
-                  }],
-                  time: order.menu.time
+                  let time = 0;
+                  order.menus = await Promise.all(await order.menus.map(async (item, i) => {
+                    if (item.status + '' !== '0') {
+                      return ''
+                    }
+                    const menu = await menus.findById(item.id);
+                    const estimate = item.status !== 2 ? menu.time + ((menu.time * 0.1) * item.quantity) : 0;
+                    time += estimate;
+
+                    let data = {menuId: item.id, ...item};
+                    data['image'] = menu.image;
+                    data['time'] = estimate;
+
+                    let pointer = dataMenu[menu.id];
+                    if (pointer) {
+                      dataMenu[menu.id].time += menu.time;
+                      dataMenu[menu.id].order.push({
+                        orderId: order.key,
+                        table: order.user.table, quantity: item.quantity, ...menu
+                      })
+                    } else {
+                      dataMenu[menu.id] = {
+                        key: menu.id,
+                        image: menu.image,
+                        name: menu.name,
+                        time: menu.time,
+                        order: [{
+                          orderId: order.key,
+                          table: order.user.table, quantity: item.quantity, ...menu
+                        }]
+                      }
+                    }
+                    return data;
+                  }));
+
+                  order['time'] = time;
+
+                  return order;
+                })
+              );
+
+              let data = [];
+
+              for (let key in dataMenu) {
+                if (dataMenu.hasOwnProperty(key)) {
+                  data.push(dataMenu[key])
                 }
               }
 
-              delete order['menuId'];
-              delete order['userId'];
+              data.sort((a, b) => {
+                return a.time - b.time;
+              });
 
-              return order;
+              this.setState({
+                data
+              });
             })
-          );
-          let data = [];
-          for (let key in menu) {
-            if (menu.hasOwnProperty(key)) {
-              data.push(menu[key]);
-            }
-          }
-
-          data.sort((a, b) => {
-            return a.time - b.time;
-          });
-
-          this.setState({
-            data
-          });
+            .catch((e) => {
+              console.log(e.message)
+            });
 
         },
         (err) => {
@@ -80,16 +101,15 @@ class ChefMenuList extends Component {
     return (
       <ListItem>
         <Body>
-          <Text>Table {item.table}: "{item.note}"</Text>
+          <Text>{item.quantity}x {item.name}: "{item.note}"</Text>
         </Body>
       </ListItem>
     );
   };
 
-  setAccepted = (item) => {
-    console.log(item);
+  setAccepted = (payload) => {
     Alert.alert(
-      item.name,
+      payload.name,
       'Are you sure ?',
       [
         {
@@ -98,8 +118,31 @@ class ChefMenuList extends Component {
           style: 'cancel',
         },
         {
-          text: 'OK', onPress: () => {
-            console.log(item);
+          text: 'OK', onPress: async () => {
+            payload.order.forEach(async (item) => {
+              try {
+                let order = await dbOrders.doc(item.orderId).get();
+                let data = await order.data();
+                let isDone = true;
+                data.menus = data.menus.map((menu) => {
+                  if (item.id + '' === menu.id) {
+                    isDone = isDone && true;
+                    console.log(isDone, 'fi');
+                    return {...menu, status: 1}
+                  } else {
+                    isDone = isDone && menu.status + '' !== '0';
+                    console.log(isDone, 'else');
+                    return menu
+                  }
+                });
+                if (isDone) {
+                  data.status = 1;
+                }
+                await dbOrders.doc(item.orderId).set(data);
+              } catch (e) {
+                console.log(e.message)
+              }
+            })
           }
         },
       ],
@@ -118,7 +161,6 @@ class ChefMenuList extends Component {
           contentContainerStyle={styles.list}
           keyExtractor={(item, index) => 'menu-list-todo' + item.key}
           renderItem={({item, index}) => {
-            console.log(item)
             return (
               <View>
                 <ListItem
@@ -132,7 +174,7 @@ class ChefMenuList extends Component {
                     }}
                   >
                     <Text>
-                      Accept
+                      Done
                     </Text>
                   </Button>
                 </ListItem>
@@ -140,7 +182,7 @@ class ChefMenuList extends Component {
                   data={item.order}
                   onEndReachedThreshold={0}
                   contentContainerStyle={styles.listItemContainer}
-                  keyExtractor={(item, index) => 'menu-list-item-todo' + item.key}
+                  keyExtractor={(item, index) => 'menu-list-item-todo' + item.id + index}
                   renderItem={this.renderItem}
                 />
               </View>
