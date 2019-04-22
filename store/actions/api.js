@@ -1,8 +1,8 @@
 import axios from 'axios'
-import { FETCH_MENUS, ORDER_FOOD, GET_SALDO, CREATE_ORDER, FIND_USER, ERROR } from '../actions/types'
+import { FETCH_MENUS, ORDER_FOOD, GET_SALDO, CREATE_ORDER, FIND_USER, ERROR, SCAN_QR } from '../actions/types'
 
 const baseURL = axios.create({
-  baseURL: 'http://10.0.2.2:3000'
+  baseURL: 'http://192.168.43.145:3000'
 })
 
 export const fetchMenus = () => async (dispatch) => {
@@ -76,6 +76,25 @@ export const findUser = (userId) => async (dispatch) => {
     dispatch({
       type: FIND_USER,
       payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: error.message
+    })
+  }
+}
+
+export const scanQR = (object) => async (dispatch) => {
+  try {
+    let valid = false
+    let { data } = await baseURL.post('/qr', { ...object })
+    if (+data.valid) {
+      valid = true
+    }
+    dispatch({
+      type: SCAN_QR,
+      payload: valid
     })
   } catch (error) {
     dispatch({

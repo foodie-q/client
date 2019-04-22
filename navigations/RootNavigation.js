@@ -8,12 +8,19 @@ import Home from '../screens/Home'
 import Orders from '../screens/Orders'
 import Profile from '../screens/Profile'
 import ReserveTable from '../screens/ReserveTable'
+import ScanQR from '../screens/ScanQR'
 import Menus from '../screens/Menus'
 import Payment from '../screens/Payment'
 
 const HomeNavigator = createStackNavigator({
   Home: {
     screen: Home,
+    navigationOptions: {
+      header: null
+    }
+  },
+  ScanQR: {
+    screen: ScanQR,
     navigationOptions: {
       header: null
     }
