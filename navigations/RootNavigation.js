@@ -5,6 +5,7 @@ import { createAppContainer, createMaterialTopTabNavigator, createStackNavigator
 
 // screens 
 import Home from '../screens/Home'
+import ReserveTable from '../screens/ReserveTable'
 import Orders from '../screens/Orders'
 import Menus from '../screens/Menus'
 import Payment from '../screens/Payment'
@@ -17,13 +18,11 @@ const HomeNavigator = createStackNavigator({
     }
   },
   Menus: {
-    screen: Menus,
+    screen: Menus
+  },
+  ReserveTable: {
+    screen: ReserveTable,
     navigationOptions: {
-      headerRight: (
-        <TouchableOpacity style={{ backgroundColor: 'orange', padding: 10, marginRight: 20, borderRadius: 20 }}>
-          <Text style={{ color: '#fff' }}>Rp 120,000,000</Text>
-        </TouchableOpacity>
-      ),
       headerLeft: null
     }
   },

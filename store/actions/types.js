@@ -1,2 +1,5 @@
-export const FETCH_FOODS = 'FETCH_FOODS'
+export const FETCH_MENUS = 'FETCH_MENUS'
 export const ORDER_FOOD = 'ORDER_FOOD'
+export const GET_SALDO = 'GET_SALDO'
+export const CREATE_ORDER = 'CREATE_ORDER'
+export const ERROR = 'ERROR'
