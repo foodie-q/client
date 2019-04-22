@@ -24,6 +24,16 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "extra": {
+      "firebase": {
+        "apiKey": "AIzaSyCmko1vka8wbPXEKS39mhMZyfJqDWrkGlo",
+        "authDomain": "final-project-anton-zul-felix.firebaseapp.com",
+        "databaseURL": "https://final-project-anton-zul-felix.firebaseio.com",
+        "projectId": "final-project-anton-zul-felix",
+        "storageBucket": "final-project-anton-zul-felix.appspot.com",
+        "messagingSenderId": "480360483873"
+      }
     }
   }
 }
