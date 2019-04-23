@@ -27,9 +27,9 @@ class Profile extends Component {
         <View
           style={{
             backgroundColor: '#f64747',
-            borderRadius: '100%',
-            width: width * 0.3,
-            height: width * 0.3,
+            borderRadius: 80,
+            width: 100,
+            height: 100,
             alignItems: 'center',
             justifyContent: 'center',
             marginBottom: 30,
@@ -37,7 +37,7 @@ class Profile extends Component {
         >
           <Icon
             ios={'ios-contact'} android={'md-contact'}
-            style={{fontSize: width * 0.31, color: 'white'}}
+            style={{fontSize: 90, color: 'white'}}
           />
         </View>
         <Text>{this.props.user.name}</Text>
@@ -45,7 +45,7 @@ class Profile extends Component {
         <Text>{this.props.saldo}</Text>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('TopUpSaldo')}
-          style={{backgroundColor: '#f64747', padding: 10, borderRadius: 20, marginTop: 10, width: width * 0.9}}>
+          style={{backgroundColor: '#f64747', padding: 10, borderRadius: 20, marginTop: 10, width: 300}}>
           <Text style={{textAlign: 'center', color: '#fff'}}>
             TOP UP BALANCE
           </Text>
@@ -55,7 +55,7 @@ class Profile extends Component {
             await localStorage.clear();
             this.props.navigation.dispatch(resetAction)
           }}
-          style={{backgroundColor: '#f64747', padding: 10, borderRadius: 20, marginTop: 10, width: width * 0.9}}>
+          style={{backgroundColor: '#f64747', padding: 10, borderRadius: 20, marginTop: 10, width: 300}}>
           <Text style={{textAlign: 'center', color: '#fff'}}>
             LOGOUT
           </Text>
