@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { FETCH_MENUS, ORDER_FOOD, GET_SALDO, CREATE_ORDER, FIND_USER, ERROR, SCAN_QR } from '../actions/types'
+import { FETCH_MENUS, ORDER_FOOD, GET_SALDO, CREATE_ORDER, FIND_USER, ERROR, SCAN_QR, CREATE_BALANCE } from '../actions/types'
 
 const baseURL = axios.create({
   baseURL: 'http://d5ead56c.ngrok.io'
@@ -95,6 +95,21 @@ export const scanQR = (object) => async (dispatch) => {
     dispatch({
       type: SCAN_QR,
       payload: valid
+    })
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: error.message
+    })
+  }
+}
+
+export const createBalance = (objCreate) => async (dispatch) => {
+  try {
+    let { data } = await baseURL.post('/users/saldo', { payload: objCreate })
+    dispatch({
+      type: CREATE_BALANCE,
+      payload: data
     })
   } catch (error) {
     dispatch({

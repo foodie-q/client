@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Text, View, TouchableOpacity, TouchableHighlight, StyleSheet} from 'react-native'
+=======
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Text, View, TouchableOpacity, TouchableHighlight, StyleSheet, Image } from 'react-native'
+>>>>>>> temp
 import localStorage from '../helpers/localStorage'
 import {getSaldo} from '../store/actions/api'
 import {Constants} from 'expo'
@@ -13,14 +19,22 @@ class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
+<<<<<<< HEAD
         <Text style={styles.appName}>
           {Constants.name}
         </Text>
+=======
+        <Image source={require('../assets/icon.png')} style={{ width: 300, height: 330, marginBottom: 30 }} />
+>>>>>>> temp
         <TouchableOpacity
           style={styles.touchableOpacity}
           onPress={() => this.props.navigation.navigate('ScanQR')}
         >
+<<<<<<< HEAD
           <Text style={{textAlign: 'center', color: '#fff'}}>
+=======
+          <Text style={{ textAlign: 'center', color: '#fff', fontSize: 18 }}>
+>>>>>>> temp
             SCAN QR CODE
           </Text>
         </TouchableOpacity>
@@ -28,7 +42,11 @@ class Home extends Component {
           style={styles.touchableOpacity}
           onPress={() => this.props.navigation.navigate('ReserveTable')}
         >
+<<<<<<< HEAD
           <Text style={{textAlign: 'center', color: '#fff'}}>
+=======
+          <Text style={{ textAlign: 'center', color: '#fff', fontSize: 18 }}>
+>>>>>>> temp
             RESERVE TABLE
           </Text>
         </TouchableOpacity>
@@ -45,15 +63,10 @@ const styles = StyleSheet.create({
   },
   touchableOpacity: {
     marginVertical: 10,
-    padding: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 18,
     backgroundColor: '#f64747',
     borderRadius: 50
-  },
-  appName: {
-    textAlign: 'center',
-    marginBottom: 40,
-    fontSize: 42,
-    color: '#f64747'
   }
 })
 

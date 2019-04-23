@@ -1,4 +1,4 @@
-import { FETCH_MENUS, ORDER_FOOD, GET_SALDO, CREATE_ORDER, FIND_USER, SCAN_QR } from '../actions/types'
+import { FETCH_MENUS, ORDER_FOOD, GET_SALDO, CREATE_ORDER, FIND_USER, SCAN_QR, CREATE_BALANCE } from '../actions/types'
 
 const initialState = {
   user: '',
@@ -6,7 +6,8 @@ const initialState = {
   saldo: 0,
   validQR: false,
   isLoading: true,
-  loadingCreate: true
+  loadingCreate: true,
+  loadingBalance: true
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -41,6 +42,12 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         validQR: payload
+      }
+    case CREATE_BALANCE:
+      return {
+        ...state,
+        saldo: payload,
+        loadingBalance: false
       }
     default:
       return state
