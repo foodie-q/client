@@ -18,14 +18,21 @@ class Login extends Component {
   render() {
     return (
       <LoginForm
-        login={this.props.login}/>
+        login={this.props.login}
+        loading={this.props.loading}
+      />
     )
   }
 }
 
+const mapStateToProps = state => {
+  return ({
+    loading: state.Auth.loading,
+  })
+};
 
 const mapDispatchtoProps = (dispatch) => bindActionCreators({
   login
 }, dispatch);
 
-export default connect(null, mapDispatchtoProps)(Login)
+export default connect(mapStateToProps, mapDispatchtoProps)(Login)

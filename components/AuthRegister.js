@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, TextInput, View} from 'react-native'
+import {ActivityIndicator, StyleSheet, Text, TextInput, View} from 'react-native'
 import {Button} from 'native-base'
 
 let styles = StyleSheet.create({
@@ -93,15 +93,18 @@ class AuthRegister extends Component {
           onChangeText={this.handleChange('password')}
           value={this.state.password}
         />
-
-        <Button
-          style={styles.button}
-          onPress={this.handleButtonPress}>
-
-          <Text style={styles.buttonTitle}>{this.props.buttonTitle}</Text>
-
-        </Button>
-
+        {
+          !this.props.loading
+          && <Button
+            style={styles.button}
+            onPress={this.handleButtonPress}>
+            <Text style={styles.buttonTitle}>{this.props.buttonTitle}</Text>
+          </Button>
+        }
+        {
+          this.props.loading
+          && <ActivityIndicator size='large' color='#f64747'/>
+        }
       </View>
     )
   }

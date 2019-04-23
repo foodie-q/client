@@ -25,20 +25,24 @@ class ChefMenuDone extends Component {
 
               let data = await Promise.all(
                 orders.docs.map(async (doc) => {
-                  let order = {key: doc.id, ...doc.data()};
-                  order['user'] = await users.findById(order.userId);
-                  delete order['userId'];
+                  try {
+                    let order = {key: doc.id, ...doc.data()};
+                    order['user'] = await users.findById(order.userId);
+                    delete order['userId'];
 
-                  order.menus = await Promise.all(await order.menus.map(async (item, i) => {
-                    const menu = await menus.findById(item.id);
+                    order.menus = await Promise.all(await order.menus.map(async (item, i) => {
+                      const menu = await menus.findById(item.id);
 
-                    let data = {menuId: item.id, ...item};
-                    data['image'] = menu.image;
+                      let data = {menuId: item.id, ...item};
+                      data['image'] = menu.image;
 
-                    return data;
-                  }));
+                      return data;
+                    }));
 
-                  return order;
+                    return order;
+                  } catch (e) {
+                    return ''
+                  }
                 })
               );
               this.setState({
@@ -97,6 +101,7 @@ class ChefMenuDone extends Component {
           contentContainerStyle={styles.list}
           keyExtractor={(item, index) => 'menu-list-done' + item.key}
           renderItem={({item, index}) => {
+            if (!item) return <></>;
             return (
               <View>
                 <ListItem

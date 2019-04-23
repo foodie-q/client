@@ -31,7 +31,7 @@ const tabBarOptions = {
   tabBarPosition: 'bottom'
 };
 
-const bottomBarNav = createBottomTabNavigator(routeConfigs, tabBarOptions);
+export const bottomBarNav = createBottomTabNavigator(routeConfigs, tabBarOptions);
 
 
 export default createAppContainer(bottomBarNav)

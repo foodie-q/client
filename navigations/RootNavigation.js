@@ -1,7 +1,9 @@
 import React from 'react'
 import {Text, TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
-import {createAppContainer, createMaterialTopTabNavigator, createStackNavigator} from 'react-navigation'
+import {createAppContainer, createMaterialTopTabNavigator, createStackNavigator, StackNavigator} from 'react-navigation'
+
+import {bottomBarNav} from '../navigations/AuthNavigation'
 
 // screens
 import Home from '../screens/Home'
@@ -114,4 +116,19 @@ const RootNavigation = createMaterialTopTabNavigator({
   }
 })
 
-export default createAppContainer(RootNavigation)
+const NavigationRoot = createStackNavigator({
+  CustomerAuthLogin: {
+    screen: bottomBarNav
+  },
+  Customer: {
+    screen: RootNavigation
+  }
+},{
+  initialRouteName: 'Customer',
+  headerMode: 'none',
+  navigationOptions: {
+    headerVisible: false,
+  }
+})
+
+export default createAppContainer(NavigationRoot)
