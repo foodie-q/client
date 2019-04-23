@@ -23,16 +23,12 @@ class Menus extends Component {
   }
 
   async componentDidMount() {
-<<<<<<< HEAD
-    await this.props.fetchMenus();
-=======
     const { navigation } = this.props
     const from = navigation.getParam('from')
     this.setState({
       from
     })
     await this.props.fetchMenus()
->>>>>>> temp
     await this.props.navigation.setParams({ saldo: this.props.saldo })
   }
 
