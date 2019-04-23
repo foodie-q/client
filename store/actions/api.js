@@ -1,8 +1,8 @@
 import axios from 'axios'
-import { FETCH_MENUS, ORDER_FOOD, GET_SALDO, CREATE_ORDER, FIND_USER, ERROR, SCAN_QR, CREATE_BALANCE } from '../actions/types'
+import { FETCH_MENUS, ORDER_FOOD, GET_BALANCE, CREATE_ORDER, FIND_USER, ERROR, SCAN_QR, CREATE_BALANCE, GET_BALANCE_HISTORY } from '../actions/types'
 
 const baseURL = axios.create({
-  baseURL: 'http://d5ead56c.ngrok.io'
+  baseURL: 'http://10.0.2.2:3000'
 })
 
 export const fetchMenus = () => async (dispatch) => {
@@ -41,7 +41,7 @@ export const orderFood = (list, id, options) => (dispatch) => {
   })
 }
 
-export const getSaldo = (userId) => async (dispatch) => {
+export const getBalance = (userId) => async (dispatch) => {
   let saldo = 0
   let { data } = await baseURL.get(`/users/saldo/${userId}`)
 
@@ -50,7 +50,7 @@ export const getSaldo = (userId) => async (dispatch) => {
   }
 
   dispatch({
-    type: GET_SALDO,
+    type: GET_BALANCE,
     payload: saldo
   })
 }
@@ -109,6 +109,22 @@ export const createBalance = (objCreate) => async (dispatch) => {
     let { data } = await baseURL.post('/users/saldo', { payload: objCreate })
     dispatch({
       type: CREATE_BALANCE,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: error.message
+    })
+  }
+}
+
+export const getBalanceHistory = (userId) => async (dispatch) => {
+  try {
+    let { data } = await baseURL.get(`/users/allbalance/${userId}`)
+
+    dispatch({
+      type: GET_BALANCE_HISTORY,
       payload: data
     })
   } catch (error) {

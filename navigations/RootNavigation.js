@@ -11,6 +11,7 @@ import ReserveTable from '../screens/ReserveTable'
 import ScanQR from '../screens/ScanQR'
 import Menus from '../screens/Menus'
 import Payment from '../screens/Payment'
+import TopUpSaldo from '../screens/TopUpSaldo'
 import OrdersQRCode from "../screens/OrdersQRCode";
 
 const HomeNavigator = createStackNavigator({
@@ -51,6 +52,9 @@ const HomeNavigator = createStackNavigator({
 const ProfileNavigator = createStackNavigator({
   Profile: {
     screen: Profile
+  },
+  TopUpSaldo: {
+    screen: TopUpSaldo
   }
 })
 
