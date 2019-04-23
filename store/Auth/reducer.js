@@ -8,7 +8,7 @@ const initialState = {
 }
 
 export default session = (state = initialState, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case types.SESSION_RESTORING:
       return {
         ...state,

@@ -21,7 +21,7 @@ import Axios from 'axios'
 
 export function login(email, password) {
   return (dispatch) => {
-    dispatch(sessionLoading())
+    dispatch(sessionLoading());
     Axios({
       url: 'http://d5ead56c.ngrok.io/users/login',
       method: 'post',
@@ -30,19 +30,26 @@ export function login(email, password) {
         password
       }
     })
-    .then(async ({data}) => {
-        await localStorage.setItem('userId', data.uid)
+      .then(async ({data}) => {
+        console.log(data.role, 'ini role');
+        try {
+          localStorage.setItem('userId', data.uid || '');
+          localStorage.setItem('role', data.role);
+        } catch (e) {
+          console.log(e.message)
+        }
+
         dispatch(sessionSuccess(data))
-    })
-    .catch(err => {
-          dispatch(sessionError(err.message))
-        })
+      })
+      .catch(err => {
+        dispatch(sessionError(err.message))
+      })
   }
 }
 
 export function register(email, password, name, role) {
   return (dispatch) => {
-    dispatch(sessionLoading())
+    dispatch(sessionLoading());
     Axios({
       url: 'http://d5ead56c.ngrok.io/users/register',
       method: 'post',
@@ -53,30 +60,29 @@ export function register(email, password, name, role) {
         role
       }
     })
-    .then(({data}) => {
-      console.log("asd",data)
+      .then(({data}) => {
         dispatch(sessionSuccess(data))
-    })
-    .catch(err => {
-          dispatch(sessionError(err.message))
-        })
+      })
+      .catch(err => {
+        dispatch(sessionError(err.message))
+      })
   }
 
 }
 
 export function logout() {
   return (dispatch) => {
-    dispatch(sessionLoading())
+    dispatch(sessionLoading());
 
     Axios({
       url: 'd5ead56c.ngrok.io/users/logout'
     })
-    .then(() => {
-      dispatch(sessionLogout())
-    })
-    .catch(err => {
-      dispatch(sessionError(err.message))
-    })
+      .then(() => {
+        dispatch(sessionLogout())
+      })
+      .catch(err => {
+        dispatch(sessionError(err.message))
+      })
   }
 }
 

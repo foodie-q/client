@@ -2,19 +2,17 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {
   Alert,
-  Linking,
   Dimensions,
   LayoutAnimation,
-  Text,
-  View,
+  Linking,
   StatusBar,
   StyleSheet,
+  Text,
   TouchableOpacity,
-  ActivityIndicator
+  View
 } from 'react-native';
 import {BarCodeScanner, Permissions} from 'expo';
 import {scanQR} from '../../../store/actions/api'
-import localStorage from '../../../helpers/localStorage'
 import {dbOrders} from "../../../helpers/firebase";
 import Loading from "../../../components/Loading";
 
@@ -52,7 +50,8 @@ class WaitersBooking extends Component {
           this.setState({
             loading: true
           });
-          dbOrders.doc(data.orderId)
+          dbOrders
+            .doc(data.orderId)
             .get()
             .then(async (orders) => {
               if (orders.exists) {
@@ -75,10 +74,6 @@ class WaitersBooking extends Component {
           });
           console.log(e.message)
         }
-        // this.props.scanQR({
-        //   userId: await localStorage.getItem('userId'),
-        //   table: +result.data
-        // })
       }
 
       this.setState({lastScannedUrl: result.data});

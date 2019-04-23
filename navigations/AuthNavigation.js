@@ -1,9 +1,7 @@
 import React from 'react'
-import { Text, TouchableOpacity } from 'react-native'
-import Icon from 'react-native-vector-icons/Ionicons'
-import { createAppContainer, createMaterialTopTabNavigator, createStackNavigator,createBottomTabNavigator } from 'react-navigation'
+import {createAppContainer, createBottomTabNavigator} from 'react-navigation'
 
-// screens 
+// screens
 import LoginRoute from '../screens/Login'
 import RegisterRoute from '../screens/Register'
 
@@ -14,7 +12,7 @@ const routeConfigs = {
   Register: {
     screen: RegisterRoute,
   },
-}
+};
 
 const tabBarOptions = {
   tabBarOptions: {
@@ -31,9 +29,9 @@ const tabBarOptions = {
     },
   },
   tabBarPosition: 'bottom'
-}
+};
 
-const bottomBarNav = createBottomTabNavigator(routeConfigs, tabBarOptions)
+const bottomBarNav = createBottomTabNavigator(routeConfigs, tabBarOptions);
 
 
 export default createAppContainer(bottomBarNav)

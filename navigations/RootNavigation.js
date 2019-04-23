@@ -1,7 +1,7 @@
 import React from 'react'
-import { Text, TouchableOpacity } from 'react-native'
+import {Text, TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { createAppContainer, createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
+import {createAppContainer, createMaterialTopTabNavigator, createStackNavigator} from 'react-navigation'
 
 // screens
 import Home from '../screens/Home'
@@ -39,8 +39,8 @@ const HomeNavigator = createStackNavigator({
     screen: Payment,
     navigationOptions: {
       headerRight: (
-        <TouchableOpacity style={{ backgroundColor: 'orange', padding: 10, marginRight: 20, borderRadius: 20 }}>
-          <Text style={{ color: '#fff' }}>Rp 120,000,000</Text>
+        <TouchableOpacity style={{backgroundColor: 'orange', padding: 10, marginRight: 20, borderRadius: 20}}>
+          <Text style={{color: '#fff'}}>Rp 120,000,000</Text>
         </TouchableOpacity>
       ),
       headerLeft: null
@@ -56,9 +56,15 @@ const ProfileNavigator = createStackNavigator({
 
 const OrdersNavigator = createStackNavigator({
   Orders: {
-    screen: Orders
+    screen: Orders,
+    navigationOptions: {
+      title: 'History'
+    }
   },
-  OrdersQRCode:{
+  OrdersPaymentDetail: {
+    screen: Payment,
+  },
+  OrdersQRCode: {
     screen: OrdersQRCode
   }
 });
@@ -68,7 +74,7 @@ const RootNavigation = createMaterialTopTabNavigator({
     screen: HomeNavigator,
     navigationOptions: {
       tabBarLabel: 'Home',
-      tabBarIcon: ({ tintColor }) => (<Icon name="ios-home" color={tintColor} size={24} />
+      tabBarIcon: ({tintColor}) => (<Icon name="ios-home" color={tintColor} size={24}/>
       )
     }
   },
@@ -76,7 +82,7 @@ const RootNavigation = createMaterialTopTabNavigator({
     screen: OrdersNavigator,
     navigationOptions: {
       tabBarLabel: 'Orders',
-      tabBarIcon: ({ tintColor }) => (<Icon name="ios-restaurant" color={tintColor} size={24} />
+      tabBarIcon: ({tintColor}) => (<Icon name="ios-restaurant" color={tintColor} size={24}/>
       )
     }
   },
@@ -84,24 +90,24 @@ const RootNavigation = createMaterialTopTabNavigator({
     screen: ProfileNavigator,
     navigationOptions: {
       tabBarLabel: 'Profile',
-      tabBarIcon: ({ tintColor }) => (<Icon name="ios-person" color={tintColor} size={24} />)
+      tabBarIcon: ({tintColor}) => (<Icon name="ios-person" color={tintColor} size={24}/>)
     }
   }
 }, {
-    initialRouteName: 'Home',
-    tabBarPosition: 'bottom',
-    tabBarOptions: {
-      activeTintColor: '#f64747',
-      inactiveTintColor: 'grey',
-      indicatorStyle: {
-        backgroundColor: '#fff'
-      },
-      style: {
-        backgroundColor: '#fff',
-        height: 60
-      },
-      showIcon: true
-    }
-  })
+  initialRouteName: 'Home',
+  tabBarPosition: 'bottom',
+  tabBarOptions: {
+    activeTintColor: '#f64747',
+    inactiveTintColor: 'grey',
+    indicatorStyle: {
+      backgroundColor: '#fff'
+    },
+    style: {
+      backgroundColor: '#fff',
+      height: 60
+    },
+    showIcon: true
+  }
+})
 
 export default createAppContainer(RootNavigation)

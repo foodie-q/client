@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Text, View, Image, TouchableOpacity, ActivityIndicator, Button, FlatList, Modal, Alert } from 'react-native'
-import { fetchMenus, orderFood } from '../store/actions/api'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View} from 'react-native'
+import {fetchMenus, orderFood} from '../store/actions/api'
 
 class Menus extends Component {
   state = {
@@ -22,7 +22,7 @@ class Menus extends Component {
   }
 
   async componentDidMount() {
-    await this.props.fetchMenus()
+    await this.props.fetchMenus();
     await this.props.navigation.setParams({ saldo: this.props.saldo })
   }
 
@@ -88,7 +88,7 @@ class Menus extends Component {
           </Text>
         </TouchableOpacity>)
       }
-    }
+    };
     return (
       this.props.isLoading ? <ActivityIndicator size='large' color='#f64747' /> :
         <View style={{ flex: 1 }}>

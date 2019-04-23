@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Text, View, TouchableOpacity, TouchableHighlight, StyleSheet } from 'react-native'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {Text, View, TouchableOpacity, TouchableHighlight, StyleSheet} from 'react-native'
 import localStorage from '../helpers/localStorage'
-import { getSaldo } from '../store/actions/api'
+import {getSaldo} from '../store/actions/api'
+import {Constants} from 'expo'
 
 class Home extends Component {
   async componentWillMount() {
@@ -13,13 +14,13 @@ class Home extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.appName}>
-          NAMA APP
+          {Constants.name}
         </Text>
         <TouchableOpacity
           style={styles.touchableOpacity}
           onPress={() => this.props.navigation.navigate('ScanQR')}
         >
-          <Text style={{ textAlign: 'center', color: '#fff' }}>
+          <Text style={{textAlign: 'center', color: '#fff'}}>
             SCAN QR CODE
           </Text>
         </TouchableOpacity>
@@ -27,7 +28,7 @@ class Home extends Component {
           style={styles.touchableOpacity}
           onPress={() => this.props.navigation.navigate('ReserveTable')}
         >
-          <Text style={{ textAlign: 'center', color: '#fff' }}>
+          <Text style={{textAlign: 'center', color: '#fff'}}>
             RESERVE TABLE
           </Text>
         </TouchableOpacity>
