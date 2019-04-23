@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text} from "react-native";
+import {Text, View} from "react-native";
 import {dbUsers} from "../../../helpers/firebase";
 
 class WaitersDetailCustomer extends Component {
@@ -8,8 +8,10 @@ class WaitersDetailCustomer extends Component {
   };
 
   componentDidMount() {
-    let user = this.props.navigation.getParam('users')
-    dbUsers.doc(user).get()
+    let user = this.props.navigation.getParam('users');
+    dbUsers
+      .doc(user)
+      .get()
       .then((users) => {
         this.setState({
           users: {
@@ -24,13 +26,12 @@ class WaitersDetailCustomer extends Component {
   }
 
   render() {
-    console.log(this.state.users);
-    const {users: {name, table}} = this.state
+    const {users: {name, table}} = this.state;
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <Text>{name}</Text>
         <Text style={{
-          fontSize: 30
+          fontSize: 50
         }}>{table}</Text>
       </View>
     );

@@ -1,14 +1,11 @@
 import React, {Component} from 'react'
-import {Text, View, Dimensions, FlatList, TouchableHighlight} from 'react-native'
-import QRCode from 'react-native-qrcode';
-import {dbOrders, dbUsers} from "../helpers/firebase";
-import styles from "./Chef/ChefMenuList/styles";
-import {Button, ListItem} from "native-base";
+import {Dimensions, FlatList, Text, TouchableHighlight, View} from 'react-native'
+import {dbOrders} from "../helpers/firebase";
+import * as users from "../helpers/firebase/users";
 
 const {width} = Dimensions.get('window');
 
 const query = dbOrders.orderBy('createdAt', "desc");
-import * as users from "../helpers/firebase/users";
 
 export default class Orders extends Component {
   state = {
@@ -37,6 +34,8 @@ export default class Orders extends Component {
       )
   }
 
+  renderText = (item) => <Text>{item.createdAt} {item.key} {item.status}</Text>;
+
   render() {
     const {data} = this.state;
     return (
@@ -57,17 +56,18 @@ export default class Orders extends Component {
                     this.props.navigation.navigate('OrdersQRCode', {text: `{"orderId":"${item.key}", "userId": "${item.user.id}", "table": "${item.user.table}"}`});
                   }}
                 >
-                  <Text>{item.createdAt} {item.key} {item.status}</Text>
+                  {this.renderText(item)}
                 </TouchableHighlight>
               )
             } else {
               return (
                 <View
                   style={{
+                    direction: 'row',
                     padding: 10
                   }}
                 >
-                  <Text>{item.createdAt} {item.key} {item.status}</Text>
+                  {this.renderText(item)}
                 </View>
               )
             }

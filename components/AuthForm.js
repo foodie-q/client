@@ -15,7 +15,7 @@ let styles = StyleSheet.create({
         padding: 10,
     },
     button: {
-        backgroundColor: 'orange',
+        backgroundColor: '#f64747',
         height: 40,
         margin: 10,
         borderRadius: 5,

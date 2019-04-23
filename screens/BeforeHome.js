@@ -24,7 +24,7 @@ class BeforeHome extends Component {
 
 const mapStateToProps = (state) => ({
   logged: state.Auth.user != null,
-  user: state.Auth.user || {role: ""},
+  user: state.Auth.user || {role: "0"},
 });
 
 
