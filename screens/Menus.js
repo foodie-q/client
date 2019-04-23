@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View} from 'react-native'
-import {fetchMenus, orderFood} from '../store/actions/api'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
+import { fetchMenus, orderFood } from '../store/actions/api'
 
 class Menus extends Component {
   state = {
@@ -14,7 +14,7 @@ class Menus extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerRight: (
-        <TouchableOpacity style={{ backgroundColor: 'orange', padding: 10, marginRight: 20, borderRadius: 20 }}>
+        <TouchableOpacity style={{ backgroundColor: '#f64747', padding: 10, marginRight: 20, borderRadius: 20 }}>
           <Text style={{ color: '#fff' }}>{navigation.getParam('saldo')}</Text>
         </TouchableOpacity>
       ),
@@ -53,7 +53,7 @@ class Menus extends Component {
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Payment', { orders: this.props.menus, from: this.state.from })}
           style={{
-            backgroundColor: 'orange',
+            backgroundColor: '#f64747',
             marginTop: 10,
             marginHorizontal: 10,
             paddingVertical: 10,
@@ -61,7 +61,7 @@ class Menus extends Component {
             borderRadius: 20
           }}
         >
-          <Text style={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: 17 }}>View Basket</Text>
+          <Text style={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: 17 }}>VIEW BASKET</Text>
         </TouchableOpacity>
       )
     } else {
@@ -75,19 +75,19 @@ class Menus extends Component {
         return (<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 20 }}>
           <TouchableOpacity
             onPress={this.addToBasket.bind(this, item.id, 'reduce')}
-            style={{ backgroundColor: 'orange', width: 20, height: 20, borderRadius: 5 }}>
+            style={{ backgroundColor: '#f64747', width: 20, height: 20, borderRadius: 5 }}>
             <Text style={{ textAlign: 'center', color: '#fff' }}>-</Text>
           </TouchableOpacity>
           <Text style={{ textAlign: 'center', marginHorizontal: 10 }}>{item.order}</Text>
           <TouchableOpacity
             onPress={this.addToBasket.bind(this, item.id, 'add')}
-            style={{ backgroundColor: 'orange', width: 20, height: 20, borderRadius: 5 }}>
+            style={{ backgroundColor: '#f64747', width: 20, height: 20, borderRadius: 5 }}>
             <Text style={{ textAlign: 'center', color: '#fff' }}>+</Text>
           </TouchableOpacity>
         </View>)
       } else {
         return (<TouchableOpacity
-          style={{ backgroundColor: 'orange', padding: 5, borderRadius: 10, marginTop: 20 }}
+          style={{ backgroundColor: '#f64747', padding: 5, borderRadius: 10, marginTop: 20 }}
           onPress={this.addToBasket.bind(this, item.id, 'add')}>
           <Text style={{ fontSize: 10, color: '#fff', textAlign: 'center' }}>
             ADD TO BASKET
