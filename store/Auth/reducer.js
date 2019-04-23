@@ -25,7 +25,7 @@ export default session = (state = initialState, action) => {
       return {
         ...state,
         restoring: false,
-        loading: true,
+        loading: false,
         error: null,
         user: action.user
       }

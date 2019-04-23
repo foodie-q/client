@@ -13,25 +13,27 @@ class Register extends Component {
     tabBarLabel: 'Register',
     tabBarIcon: ({ tintColor }) => (
       <Icon ios='ios-person-add' android="md-person-add" style={{color: tintColor, tintColor: tintColor}}/>
-      // <Image
-      //   source={personImage}
-      //   style={{tintColor: tintColor}}
-      // />
     )
   }
 
   render() {
     return (
       <RegisterForm
-        register={this.props.register} />
+        register={this.props.register}
+        loading={this.props.loading}
+      />
     )
   }
 }
 
-
+const mapStateToProps = state => {
+  return ({
+    loading: state.Auth.loading,
+  })
+};
 
 const mapDispatchtoProps = (dispatch) => bindActionCreators({
   register
 }, dispatch)
 
-export default connect(null, mapDispatchtoProps)(Register)
+export default connect(mapStateToProps, mapDispatchtoProps)(Register)

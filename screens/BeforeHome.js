@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {Text, View} from 'react-native'
 import {connect} from 'react-redux'
 
 import RootNavigation from '../navigations/RootNavigation'
@@ -13,6 +12,14 @@ class BeforeHome extends Component {
   state = {
     user: this.props.user
   };
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    if (this.state.user.role !== nextProps.user.role) {
+      this.setState({
+        user: nextProps.user
+      })
+    }
+  }
 
   componentDidMount() {
     localStorage

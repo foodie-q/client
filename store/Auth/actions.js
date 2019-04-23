@@ -23,7 +23,7 @@ export function login(email, password) {
   return (dispatch) => {
     dispatch(sessionLoading());
     Axios({
-      url: 'http://10.0.2.2:3000/users/login',
+      url: 'http://d5ead56c.ngrok.io/users/login',
       method: 'post',
       data: {
         email,
@@ -31,7 +31,6 @@ export function login(email, password) {
       }
     })
       .then(async ({data}) => {
-        console.log(data.role, 'ini role');
         try {
           localStorage.setItem('userId', data.uid || '');
           localStorage.setItem('role', data.role);
@@ -51,7 +50,7 @@ export function register(email, password, name, role) {
   return (dispatch) => {
     dispatch(sessionLoading());
     Axios({
-      url: 'http://10.0.2.2:3000/users/register',
+      url: 'http://d5ead56c.ngrok.io/users/register',
       method: 'post',
       data: {
         email,
@@ -75,7 +74,7 @@ export function logout() {
     dispatch(sessionLoading());
 
     Axios({
-      url: '10.0.2.2:3000/users/logout'
+      url: 'd5ead56c.ngrok.io/users/logout'
     })
       .then(() => {
         dispatch(sessionLogout())

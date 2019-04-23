@@ -2,7 +2,7 @@ import axios from 'axios'
 import { FETCH_MENUS, ORDER_FOOD, GET_BALANCE, CREATE_ORDER, FIND_USER, ERROR, SCAN_QR, CREATE_BALANCE, GET_BALANCE_HISTORY } from '../actions/types'
 
 const baseURL = axios.create({
-  baseURL: 'http://10.0.2.2:3000'
+  baseURL: 'http://d5ead56c.ngrok.io'
 })
 
 export const fetchMenus = () => async (dispatch) => {
@@ -42,17 +42,24 @@ export const orderFood = (list, id, options) => (dispatch) => {
 }
 
 export const getBalance = (userId) => async (dispatch) => {
+  console.log(userId, 'ini userId');
   let saldo = 0
-  let { data } = await baseURL.get(`/users/saldo/${userId}`)
+  try {
+    let { data } = await baseURL.get(`/users/saldo/${userId}`)
+    console.log(data, 'ini getBalance');
 
-  if (data) {
-    saldo = data
+    if (data) {
+      saldo = data
+    }
+
+    dispatch({
+      type: GET_BALANCE,
+      payload: saldo
+    })
+  }catch (e) {
+    console.log(e.message)
   }
 
-  dispatch({
-    type: GET_BALANCE,
-    payload: saldo
-  })
 }
 
 export const createOrder = (objCreate) => async (dispatch) => {
