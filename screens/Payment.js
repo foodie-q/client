@@ -1,15 +1,8 @@
-<<<<<<< HEAD
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {Text, View, FlatList, TouchableOpacity, Alert, ActivityIndicator} from 'react-native'
-import {createOrder} from '../store/actions/api'
-=======
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Text, View, FlatList, TouchableOpacity, Alert, ActivityIndicator } from 'react-native'
 import { createOrder, createBalance } from '../store/actions/api'
 import localStorage from '../helpers/localStorage'
->>>>>>> temp
 
 class Payment extends Component {
   state = {
@@ -24,7 +17,6 @@ class Payment extends Component {
   }
 
   componentDidMount() {
-<<<<<<< HEAD
     const {navigation} = this.props;
     let orders = navigation.getParam('orders');
 
@@ -56,30 +48,6 @@ class Payment extends Component {
     } catch (e) {
       console.log(e.message)
     }
-=======
-    const { navigation } = this.props
-    let from = navigation.getParam('from')
-    let orders = navigation.getParam('orders')
-  
-    orders = orders.filter(el => {
-      return el.order !== 0
-    })
-
-    orders = orders.map(order => {
-      return {
-        id: order.id,
-        quantity: order.order,
-        name: order.name,
-        price: order.price,
-        status: 0,
-        notes: ''
-      }
-    })
-    this.setState({
-      orders,
-      from
-    })
->>>>>>> temp
   }
 
   changeToCurrency(input) {
