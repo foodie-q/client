@@ -39,15 +39,7 @@ const HomeNavigator = createStackNavigator({
     }
   },
   Payment: {
-    screen: Payment,
-    navigationOptions: {
-      headerRight: (
-        <TouchableOpacity style={{backgroundColor: 'orange', padding: 10, marginRight: 20, borderRadius: 20}}>
-          <Text style={{color: '#fff'}}>Rp 120,000,000</Text>
-        </TouchableOpacity>
-      ),
-      headerLeft: null
-    }
+    screen: Payment
   }
 })
 
