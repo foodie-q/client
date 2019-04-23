@@ -27,7 +27,7 @@ class Payment extends Component {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     await this.props.navigation.setParams({ saldo: this.props.saldo })
 
     const { navigation } = this.props;
