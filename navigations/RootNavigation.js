@@ -3,7 +3,7 @@ import { Text, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { createAppContainer, createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
 
-// screens 
+// screens
 import Home from '../screens/Home'
 import Orders from '../screens/Orders'
 import Profile from '../screens/Profile'
@@ -11,6 +11,7 @@ import ReserveTable from '../screens/ReserveTable'
 import ScanQR from '../screens/ScanQR'
 import Menus from '../screens/Menus'
 import Payment from '../screens/Payment'
+import OrdersQRCode from "../screens/OrdersQRCode";
 
 const HomeNavigator = createStackNavigator({
   Home: {
@@ -56,8 +57,11 @@ const ProfileNavigator = createStackNavigator({
 const OrdersNavigator = createStackNavigator({
   Orders: {
     screen: Orders
+  },
+  OrdersQRCode:{
+    screen: OrdersQRCode
   }
-})
+});
 
 const RootNavigation = createMaterialTopTabNavigator({
   Home: {

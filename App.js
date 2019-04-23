@@ -18,7 +18,6 @@ export default class App extends React.Component {
           <StyleProvider style={getTheme(themes)}>
               <BeforeHome />
           </StyleProvider>
-          
         </Provider>
       </View>
     );

@@ -53,7 +53,8 @@ export default class Orders extends Component {
                     padding: 10
                   }}
                   onPress={() => {
-                    this.props.navigation.navigate('OrdersQRCode', {text: `{orderId:'${item.key}',userId: '${item.user.id}', table: ${item.user.table}}`});
+                    console.log({text: `{orderId:'${item.key}',userId: '${item.user.id}', table: ${item.user.table}}`}, 'test');
+                    this.props.navigation.navigate('OrdersQRCode', {text: `{"orderId":"${item.key}", "userId": "${item.user.id}", "table": "${item.user.table}"}`});
                   }}
                 >
                   <Text>{item.createdAt} {item.key} {item.status}</Text>
