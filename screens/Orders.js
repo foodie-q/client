@@ -1,6 +1,9 @@
 import React, {Component} from 'react'
 import {Dimensions, FlatList, Text, TouchableHighlight, View} from 'react-native'
+import {Icon} from 'native-base'
 import {dbOrders} from "../helpers/firebase";
+import moment from 'moment';
+
 import * as users from "../helpers/firebase/users";
 
 const {width} = Dimensions.get('window');
@@ -19,9 +22,14 @@ export default class Orders extends Component {
         async (orders) => {
           let data = await Promise.all(
             orders.docs.map(async (item) => {
-              let newOrder = {key: item.id, ...item.data()};
-              newOrder['user'] = await users.findById(newOrder.userId);
-              return newOrder;
+              try {
+                let newOrder = {key: item.id, ...item.data()};
+                newOrder['user'] = await users.findById(newOrder.userId);
+                return newOrder;
+              } catch (e) {
+                console.log(e);
+                return ''
+              }
             })
           );
           this.setState({
@@ -34,25 +42,79 @@ export default class Orders extends Component {
       )
   }
 
-  renderText = (item) => <Text>{item.createdAt} {item.key} {item.status}</Text>;
+  renderText = (item) => {
+    let color, status, icon = 'timer';
+    switch (+item.status) {
+      case 0:
+        status = 'Wait';
+        color = 'black';
+        break;
+      case 3:
+        icon = 'walk';
+        status = 'Reserved';
+        color = 'black';
+        break;
+      default:
+        icon = 'checkmark-circle-outline';
+        status = 'Completed';
+        color = 'grey';
+        break
+    }
+    return (
+      <View style={{
+        paddingBottom: 20,
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        borderBottomWidth: .5,
+        borderBottomColor: 'grey',
+
+      }}>
+        <View
+          style={{
+            flex: 1,
+            paddingRight: 10,
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+          <Icon ios={`ios-${icon}`} android={`md-${icon}`} style={{color}}/>
+        </View>
+        <View
+          style={{
+            flex: 7
+          }}
+        >
+          <Text style={{fontWeight: 'bold', width: '100%', color, marginBottom: 10}}># {item.key}</Text>
+          <Text style={{color: 'grey'}}>{moment().from(new Date(item.createdAt))} </Text>
+        </View>
+        <View
+          style={{
+            flex: 2,
+          }}
+        >
+          <Text style={{fontWeight: 'bold', width: '100%', color, textAlign: 'right',}}>{status}</Text>
+        </View>
+      </View>
+    )
+  };
 
   render() {
     const {data} = this.state;
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{flex: 1}}>
         <FlatList
           data={data}
           onEndReachedThreshold={0}
           keyExtractor={(item, index) => 'menu-list-todo' + item.key}
           renderItem={({item, index}) => {
+            if (!item) return <></>;
             if (+item.status === 3) {
               return (
                 <TouchableHighlight
                   style={{
+                    width: '100%',
                     padding: 10
                   }}
                   onPress={() => {
-                    console.log({text: `{orderId:'${item.key}',userId: '${item.user.id}', table: ${item.user.table}}`}, 'test');
                     this.props.navigation.navigate('OrdersQRCode', {text: `{"orderId":"${item.key}", "userId": "${item.user.id}", "table": "${item.user.table}"}`});
                   }}
                 >
@@ -61,14 +123,17 @@ export default class Orders extends Component {
               )
             } else {
               return (
-                <View
+                <TouchableHighlight
+                  onPress={() => {
+                    this.props.navigation.navigate('OrdersPaymentDetail', {orders: item.menus})
+                  }}
                   style={{
                     direction: 'row',
                     padding: 10
                   }}
                 >
                   {this.renderText(item)}
-                </View>
+                </TouchableHighlight>
               )
             }
 

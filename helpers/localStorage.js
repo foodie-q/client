@@ -3,7 +3,7 @@ import {AsyncStorage} from 'react-native'
 export default class localStorage {
   static async setItem(key, value) {
     try {
-      await AsyncStorage.setItem(key, value)
+      await AsyncStorage.setItem(key, value + '')
     } catch (e) {
       console.log(e)
     }
