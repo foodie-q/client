@@ -2,7 +2,7 @@ import axios from 'axios'
 import { FETCH_MENUS, ORDER_FOOD, GET_SALDO, CREATE_ORDER, FIND_USER, ERROR, SCAN_QR } from '../actions/types'
 
 const baseURL = axios.create({
-  baseURL: 'http://192.168.43.145:3000'
+  baseURL: 'http://d5ead56c.ngrok.io'
 })
 
 export const fetchMenus = () => async (dispatch) => {

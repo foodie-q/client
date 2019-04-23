@@ -28,7 +28,7 @@ class ScanQR extends Component {
     });
   };
 
-  _handleBarCodeRead = result => {
+  _handleBarCodeRead = async result => {
     if (result.data !== this.state.lastScannedUrl) {
       LayoutAnimation.spring();
       if (+result.data) {
