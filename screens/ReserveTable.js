@@ -21,18 +21,18 @@ export default class ReserveTable extends Component {
   }
 
   submitArrival() {
-    if (this.state.selectedHours < (new Date().getHours() + 2)) {
-      Alert.alert('Arrival Time should be 2 hours from now.')
-    }
-    else if (this.state.selectedHours > 20) {
-      Alert.alert('Sorry, Reserve Table is only available until 8 P.M.')
-    }
-    else if (this.state.selectedHours === 20 && this.state.selectedMinutes > 0) {
-      Alert.alert('Sorry, Reserve Table is only available until 8 P.M.')
-    }
-    else {
-      this.props.navigation.navigate('Menus')
-    }
+    // if (this.state.selectedHours < (new Date().getHours() + 2)) {
+    //   Alert.alert('Arrival Time should be 2 hours from now.')
+    // }
+    // else if (this.state.selectedHours > 20) {
+    //   Alert.alert('Sorry, Reserve Table is only available until 8 P.M.')
+    // }
+    // else if (this.state.selectedHours === 20 && this.state.selectedMinutes > 0) {
+    //   Alert.alert('Sorry, Reserve Table is only available until 8 P.M.')
+    // }
+    // else {
+      this.props.navigation.navigate('Menus', { from: 'reserve' })
+    // }
   }
 
   render() {

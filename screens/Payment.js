@@ -1,12 +1,21 @@
+<<<<<<< HEAD
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Text, View, FlatList, TouchableOpacity, Alert, ActivityIndicator} from 'react-native'
 import {createOrder} from '../store/actions/api'
+=======
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Text, View, FlatList, TouchableOpacity, Alert, ActivityIndicator } from 'react-native'
+import { createOrder, createBalance } from '../store/actions/api'
+import localStorage from '../helpers/localStorage'
+>>>>>>> temp
 
 class Payment extends Component {
   state = {
     fromOrderHistory: false,
     orders: [],
+    from: '',
     payButton: <TouchableOpacity
       onPress={() => this.submitPay()}
       style={{backgroundColor: 'orange', width: '35%', paddingHorizontal: 10, paddingVertical: 20, borderRadius: 20}}>
@@ -15,6 +24,7 @@ class Payment extends Component {
   }
 
   componentDidMount() {
+<<<<<<< HEAD
     const {navigation} = this.props;
     let orders = navigation.getParam('orders');
 
@@ -46,6 +56,30 @@ class Payment extends Component {
     } catch (e) {
       console.log(e.message)
     }
+=======
+    const { navigation } = this.props
+    let from = navigation.getParam('from')
+    let orders = navigation.getParam('orders')
+  
+    orders = orders.filter(el => {
+      return el.order !== 0
+    })
+
+    orders = orders.map(order => {
+      return {
+        id: order.id,
+        quantity: order.order,
+        name: order.name,
+        price: order.price,
+        status: 0,
+        notes: ''
+      }
+    })
+    this.setState({
+      orders,
+      from
+    })
+>>>>>>> temp
   }
 
   changeToCurrency(input) {
@@ -65,11 +99,14 @@ class Payment extends Component {
 
   async submitPay() {
     let objCreate = {
-      // userId: 'LgGX3gRskZcbvVrPjFGms9IWXIO2',
-      userId: 'AeMLsz3FUDXFgvI0tnMfD0CUHOo2',
+      userId: await localStorage.getItem('userId'),
       menus: this.state.orders,
       createdAt: new Date(),
       status: 0
+    }
+
+    if (this.state.from === 'reserve') {
+      objCreate.status = 3
     }
 
     let subtotal = 0
@@ -82,6 +119,12 @@ class Payment extends Component {
     } else {
       this.setState({payButton: <ActivityIndicator size='large' color='#f64747'/>})
       await this.props.createOrder(objCreate)
+      await this.props.createBalance({
+        userId: await localStorage.getItem('userId'),
+        createdAt: new Date(),
+        status: 0,
+        money: subtotal
+      })
     }
 
     if (!this.props.loadingCreate) {
@@ -125,11 +168,13 @@ class Payment extends Component {
 
 const mapStateToProps = state => ({
   loadingCreate: state.api.loadingCreate,
+  loadingBalance: state.api.loadingBalance,
   saldo: state.api.saldo
 })
 
 const mapDispatchToProps = dispatch => ({
-  createOrder: (payload) => dispatch(createOrder(payload))
+  createOrder: (payload) => dispatch(createOrder(payload)),
+  createBalance: (payload) => dispatch(createBalance(payload))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Payment)
