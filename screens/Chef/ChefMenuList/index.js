@@ -48,7 +48,8 @@ class ChefMenuList extends Component {
                       dataMenu[menu.id].time += menu.time;
                       dataMenu[menu.id].order.push({
                         orderId: order.key,
-                        table: order.user.table, quantity: item.quantity, ...menu
+                        table: order.user.table, quantity: item.quantity, ...menu,
+                        notes: data.notes
                       })
                     } else {
                       dataMenu[menu.id] = {
@@ -58,7 +59,8 @@ class ChefMenuList extends Component {
                         time: menu.time,
                         order: [{
                           orderId: order.key,
-                          table: order.user.table, quantity: item.quantity, ...menu
+                          table: order.user.table, quantity: item.quantity, ...menu,
+                          notes: data.notes
                         }]
                       }
                     }
@@ -101,7 +103,7 @@ class ChefMenuList extends Component {
     return (
       <ListItem>
         <Body>
-          <Text>{item.quantity}x {item.name}: "{item.note}"</Text>
+          <Text>{item.quantity}x {item.name}: "{item.notes}"</Text>
         </Body>
       </ListItem>
     );

@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {BarCodeScanner, Permissions} from 'expo';
 import {scanQR} from '../../../store/actions/api'
-import {dbOrders} from "../../../helpers/firebase";
+import {dbOrders, dbUsers} from "../../../helpers/firebase";
 import Loading from "../../../components/Loading";
 
 import styles from './styles'
@@ -59,6 +59,8 @@ class WaitersBooking extends Component {
             .then(async (orders) => {
               if (orders.exists) {
                 let dataOrder = {id: orders.id, ...orders.data()};
+                let table = Math.floor(Math.random() * 10);
+                await dbUsers.doc(dataOrder.userId).update({table: table ? table : table + 1});
                 await dbOrders.doc(data.orderId).update({status: 0});
                 this.props.navigation.replace('WaitersDetailCustomer', {
                   users: dataOrder.userId
