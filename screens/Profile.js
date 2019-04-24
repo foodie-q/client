@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Dimensions, Text, TouchableOpacity, View} from 'react-native'
 import {Icon} from 'native-base'
-import {findUser} from '../store/actions/api'
 import localStorage from '../helpers/localStorage'
 
 import {NavigationActions, StackActions} from 'react-navigation';
@@ -15,11 +14,6 @@ const resetAction = StackActions.reset({
 const {width} = Dimensions.get('window');
 
 class Profile extends Component {
-  async componentDidMount() {
-    let userId = await localStorage.getItem('userId');
-    this.props.findUser(userId)
-  }
-
   render() {
     return (
       <View style={{flex: 1, alignItems: 'center', paddingVertical: 30}}>
@@ -70,8 +64,4 @@ const mapStateToProps = state => ({
   saldo: state.api.saldo
 });
 
-const mapDispatchToProps = dispatch => ({
-  findUser: (userId) => dispatch(findUser(userId)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile)
+export default connect(mapStateToProps)(Profile)

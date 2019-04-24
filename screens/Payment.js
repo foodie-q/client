@@ -37,6 +37,7 @@ class Payment extends Component {
 
     const {navigation} = this.props;
     let orders = navigation.getParam('orders');
+    let from = navigation.getParam('from')
 
     try {
       if (navigation.state.routeName === 'OrdersPaymentDetail' && orders && orders[0].quantity) {
@@ -56,7 +57,7 @@ class Payment extends Component {
             name: order.name,
             price: order.price,
             status: 0,
-            notes: ''
+            notes: order.notes
           }
         });
         dbOrders.where("status", "==", 0).orderBy('createdAt')
@@ -83,6 +84,7 @@ class Payment extends Component {
       }
       this.setState({
         fromOrderHistory: navigation.state.routeName === 'OrdersPaymentDetail',
+        from,
         orders
       })
     } catch (e) {

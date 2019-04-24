@@ -1,18 +1,18 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import localStorage from '../helpers/localStorage'
-import {getBalance} from '../store/actions/api'
+import { findUser } from '../store/actions/api'
 
 class Home extends Component {
-  async componentWillMount() {
-    this.props.getBalance(await localStorage.getItem('userId'))
+  async componentDidMount() {
+    this.props.findUser(await localStorage.getItem('userId'))
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Image source={require('../assets/icon.png')} style={{ width: 300, height: 330, marginBottom: 30 }} />
+        <Image source={require('../assets/icon.png')} style={{ width: 300, height: 350, marginBottom: 30 }} />
         <TouchableOpacity
           style={styles.touchableOpacity}
           onPress={() => this.props.navigation.navigate('ScanQR')}
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getBalance: (userId) => dispatch(getBalance(userId))
+  findUser: (userId) => dispatch(findUser(userId))
 });
 
 export default connect(null, mapDispatchToProps)(Home)
