@@ -1,12 +1,10 @@
 import React, {Component} from 'react'
-import {Dimensions, FlatList, Text, TouchableHighlight, View} from 'react-native'
+import {FlatList, Text, TouchableHighlight, View} from 'react-native'
 import {Icon} from 'native-base'
 import {dbOrders} from "../helpers/firebase";
 import moment from 'moment';
 
 import * as users from "../helpers/firebase/users";
-
-const {width} = Dimensions.get('window');
 
 const query = dbOrders.orderBy('createdAt', "desc");
 
@@ -24,8 +22,12 @@ export default class Orders extends Component {
             orders.docs.map(async (item) => {
               try {
                 let newOrder = {key: item.id, ...item.data()};
-                newOrder['user'] = await users.findById(newOrder.userId);
-                return newOrder;
+                if (newOrder.userId) {
+                  newOrder['user'] = await users.findById(newOrder.userId);
+                  return newOrder;
+                } else {
+                  return ''
+                }
               } catch (e) {
                 console.log(e);
                 return ''
@@ -76,7 +78,7 @@ export default class Orders extends Component {
             justifyContent: 'center',
             alignItems: 'center'
           }}>
-          <Icon ios={`ios-${icon}`} android={`md-${icon}`} style={{color}}/>
+          <Icon ios={`ios-${icon}`} android={`md-${icon}`} style={{color}} name={'status'}/>
         </View>
         <View
           style={{
@@ -84,7 +86,7 @@ export default class Orders extends Component {
           }}
         >
           <Text style={{fontWeight: 'bold', width: '100%', color, marginBottom: 10}}># {item.key}</Text>
-          <Text style={{color: 'grey'}}>{moment().from(new Date(item.createdAt))} </Text>
+          <Text style={{color: 'grey'}}>{moment(item.createdAt).fromNow()} </Text>
         </View>
         <View
           style={{
@@ -104,7 +106,7 @@ export default class Orders extends Component {
         <FlatList
           data={data}
           onEndReachedThreshold={0}
-          keyExtractor={(item, index) => 'menu-list-todo' + item.key}
+          keyExtractor={(item) => 'menu-list-todo' + item.key}
           renderItem={({item, index}) => {
             if (!item) return <></>;
             if (+item.status === 3) {
@@ -128,7 +130,6 @@ export default class Orders extends Component {
                     this.props.navigation.navigate('OrdersPaymentDetail', {orders: item.menus})
                   }}
                   style={{
-                    direction: 'row',
                     padding: 10
                   }}
                 >

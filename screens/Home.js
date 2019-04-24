@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Text, View, TouchableOpacity, TouchableHighlight, StyleSheet, Image } from 'react-native'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import localStorage from '../helpers/localStorage'
-import { getBalance } from '../store/actions/api'
+import {getBalance} from '../store/actions/api'
 
 class Home extends Component {
   async componentWillMount() {
@@ -47,10 +47,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#f64747',
     borderRadius: 50
   }
-})
+});
 
 const mapDispatchToProps = dispatch => ({
   getBalance: (userId) => dispatch(getBalance(userId))
-})
+});
 
 export default connect(null, mapDispatchToProps)(Home)

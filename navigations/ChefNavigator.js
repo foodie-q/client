@@ -37,7 +37,7 @@ const ChefNavigator = createMaterialTopTabNavigator({
 });
 
 const NavigationRoot = createStackNavigator({
-  ChefAuthLogin: {
+  AuthLogin: {
     screen: bottomBarNav
   },
   Chef: {

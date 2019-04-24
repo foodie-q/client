@@ -1,23 +1,29 @@
-import axios from 'axios'
-import { FETCH_MENUS, ORDER_FOOD, GET_BALANCE, CREATE_ORDER, FIND_USER, ERROR, SCAN_QR, CREATE_BALANCE, GET_BALANCE_HISTORY } from '../actions/types'
+import api from '../../helpers/api/server';
+import {
+  FETCH_MENUS,
+  ORDER_FOOD,
+  GET_BALANCE,
+  CREATE_ORDER,
+  FIND_USER,
+  ERROR,
+  SCAN_QR,
+  CREATE_BALANCE,
+  GET_BALANCE_HISTORY
+} from '../actions/types'
 
-const baseURL = axios.create({
-  baseURL: 'http://d5ead56c.ngrok.io'
-})
 
 export const fetchMenus = () => async (dispatch) => {
-  let payload = []
-  let { data } = await baseURL
-    .get('/menus')
+  let payload = [];
+  let {data} = await api.get('/menus');
 
   if (data) {
-    payload = data.map(menu => ({ ...menu, order: 0 }))
+    payload = data.map(menu => ({...menu, order: 0}))
   }
   dispatch({
     type: FETCH_MENUS,
     payload
   })
-}
+};
 
 export const orderFood = (list, id, options) => (dispatch) => {
   let payload = []
@@ -42,12 +48,9 @@ export const orderFood = (list, id, options) => (dispatch) => {
 }
 
 export const getBalance = (userId) => async (dispatch) => {
-  console.log(userId, 'ini userId');
-  let saldo = 0
+  let saldo = 0;
   try {
-    let { data } = await baseURL.get(`/users/saldo/${userId}`)
-    console.log(data, 'ini getBalance');
-
+    let {data} = await api.get(`/users/saldo/${userId}`)
     if (data) {
       saldo = data
     }
@@ -56,7 +59,7 @@ export const getBalance = (userId) => async (dispatch) => {
       type: GET_BALANCE,
       payload: saldo
     })
-  }catch (e) {
+  } catch (e) {
     console.log(e.message)
   }
 
@@ -64,7 +67,7 @@ export const getBalance = (userId) => async (dispatch) => {
 
 export const createOrder = (objCreate) => async (dispatch) => {
   try {
-    let { data } = await baseURL.post('/users/order', { payload: objCreate })
+    let {data} = await api.post('/users/order', {payload: objCreate})
     dispatch({
       type: CREATE_ORDER,
       payload: data
@@ -79,7 +82,7 @@ export const createOrder = (objCreate) => async (dispatch) => {
 
 export const findUser = (userId) => async (dispatch) => {
   try {
-    let { data } = await baseURL.get(`/users/${userId}`)
+    let {data} = await api.get(`/users/${userId}`)
     dispatch({
       type: FIND_USER,
       payload: data
@@ -95,7 +98,7 @@ export const findUser = (userId) => async (dispatch) => {
 export const scanQR = (object) => async (dispatch) => {
   try {
     let valid = false
-    let { data } = await baseURL.post('/qr', { ...object })
+    let {data} = await api.post('/qr', {...object})
     if (+data.valid) {
       valid = true
     }
@@ -113,7 +116,7 @@ export const scanQR = (object) => async (dispatch) => {
 
 export const createBalance = (objCreate) => async (dispatch) => {
   try {
-    let { data } = await baseURL.post('/users/saldo', { payload: objCreate })
+    let {data} = await api.post('/users/saldo', {payload: objCreate})
     dispatch({
       type: CREATE_BALANCE,
       payload: data
@@ -128,7 +131,7 @@ export const createBalance = (objCreate) => async (dispatch) => {
 
 export const getBalanceHistory = (userId) => async (dispatch) => {
   try {
-    let { data } = await baseURL.get(`/users/allbalance/${userId}`)
+    let {data} = await api.get(`/users/allbalance/${userId}`)
 
     dispatch({
       type: GET_BALANCE_HISTORY,

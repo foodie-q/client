@@ -1,6 +1,6 @@
 import * as types from './actionTypes'
 import localStorage from '../../helpers/localStorage'
-import Axios from 'axios'
+import api from '../../helpers/api/server'
 
 // export function restoreSession() {
 //   return (dispatch) => {
@@ -22,14 +22,11 @@ import Axios from 'axios'
 export function login(email, password) {
   return (dispatch) => {
     dispatch(sessionLoading());
-    Axios({
-      url: 'http://d5ead56c.ngrok.io/users/login',
-      method: 'post',
-      data: {
+    api
+      .post('/users/login', {
         email,
         password
-      }
-    })
+      })
       .then(async ({data}) => {
         try {
           localStorage.setItem('userId', data.uid || '');
@@ -49,16 +46,13 @@ export function login(email, password) {
 export function register(email, password, name, role) {
   return (dispatch) => {
     dispatch(sessionLoading());
-    Axios({
-      url: 'http://d5ead56c.ngrok.io/users/register',
-      method: 'post',
-      data: {
+    api
+      .post('/users/register', {
         email,
         password,
         name,
         role
-      }
-    })
+      })
       .then(({data}) => {
         dispatch(sessionSuccess(data))
       })
@@ -72,10 +66,8 @@ export function register(email, password, name, role) {
 export function logout() {
   return (dispatch) => {
     dispatch(sessionLoading());
-
-    Axios({
-      url: 'd5ead56c.ngrok.io/users/logout'
-    })
+    api
+      .get('/users/logout')
       .then(() => {
         dispatch(sessionLogout())
       })

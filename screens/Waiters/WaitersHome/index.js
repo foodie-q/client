@@ -1,9 +1,17 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Constants} from 'expo'
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import localStorage from '../../../helpers/localStorage'
 import {getSaldo} from '../../../store/actions/api'
+import {NavigationActions, StackActions} from "react-navigation";
+
+const resetAction = StackActions.reset({
+  index: 0,
+  actions: [NavigationActions.navigate({routeName: 'AuthLogin'})],
+});
+
+const {width} = Dimensions.get('screen');
 
 class WaitersHome extends Component {
   async componentWillMount() {
@@ -20,8 +28,19 @@ class WaitersHome extends Component {
           style={styles.touchableOpacity}
           onPress={() => this.props.navigation.navigate('WaitersBooking')}
         >
-          <Text style={{textAlign: 'center', color: '#fff'}}>
+          <Text style={{textAlign: 'center', color: '#fff', width: width * 0.8}}>
             SCAN QR CODE
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.touchableOpacity}
+          onPress={async () => {
+            await localStorage.clear();
+            this.props.navigation.dispatch(resetAction)
+          }}
+        >
+          <Text style={{textAlign: 'center', color: '#fff', width: width * 0.8}}>
+            LOGOUT
           </Text>
         </TouchableOpacity>
       </View>

@@ -17,10 +17,14 @@ const WaitersNavigator = createStackNavigator({
   }
 }, {
   initialRouteName: 'WaitersHome',
+  headerMode: 'none',
+  navigationOptions: {
+    headerVisible: false,
+  }
 });
 
 const NavigationRoot = createStackNavigator({
-  WaitersAuthLogin: {
+  AuthLogin: {
     screen: bottomBarNav
   },
   Waiters: {

@@ -1,23 +1,22 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Image, Text, TouchableOpacity, View, Dimensions} from 'react-native'
+import {Dimensions, Text, TouchableOpacity, View} from 'react-native'
 import {Icon} from 'native-base'
 import {findUser} from '../store/actions/api'
 import localStorage from '../helpers/localStorage'
 
-import {StackActions, NavigationActions} from 'react-navigation';
+import {NavigationActions, StackActions} from 'react-navigation';
 
 const resetAction = StackActions.reset({
   index: 0,
-  actions: [NavigationActions.navigate({routeName: 'CustomerAuthLogin'})],
+  actions: [NavigationActions.navigate({routeName: 'AuthLogin'})],
 });
-
 
 const {width} = Dimensions.get('window');
 
 class Profile extends Component {
   async componentDidMount() {
-    let userId = await localStorage.getItem('userId')
+    let userId = await localStorage.getItem('userId');
     this.props.findUser(userId)
   }
 
@@ -38,6 +37,7 @@ class Profile extends Component {
           <Icon
             ios={'ios-contact'} android={'md-contact'}
             style={{fontSize: 90, color: 'white'}}
+            name={'profile-avatar'}
           />
         </View>
         <Text>{this.props.user.name}</Text>
@@ -55,7 +55,7 @@ class Profile extends Component {
             await localStorage.clear();
             this.props.navigation.dispatch(resetAction)
           }}
-          style={{backgroundColor: '#f64747', padding: 10, borderRadius: 20, marginTop: 10, width: 300}}>
+          style={{backgroundColor: '#f64747', padding: 10, borderRadius: 20, marginTop: 25, width: 300}}>
           <Text style={{textAlign: 'center', color: '#fff'}}>
             LOGOUT
           </Text>
@@ -68,10 +68,10 @@ class Profile extends Component {
 const mapStateToProps = state => ({
   user: state.api.user,
   saldo: state.api.saldo
-})
+});
 
 const mapDispatchToProps = dispatch => ({
   findUser: (userId) => dispatch(findUser(userId)),
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile)

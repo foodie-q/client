@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {View, FlatList, ImageBackground, Alert} from 'react-native'
-import {Body, Button, ListItem, Text} from 'native-base'
+import {Alert, FlatList, ImageBackground, View} from 'react-native'
+import {ListItem, Text} from 'native-base'
 
 import styles from './styles'
 import {dbOrders} from "../../../helpers/firebase";
@@ -8,7 +8,7 @@ import {dbOrders} from "../../../helpers/firebase";
 import * as menus from "../../../helpers/firebase/menus";
 import * as users from "../../../helpers/firebase/users";
 
-const query = dbOrders.where("status", "<", 3).orderBy('status').orderBy('createdAt');
+const query = dbOrders.where("status", "<", 1).orderBy('status').orderBy('createdAt');
 
 class ChefMenuDone extends Component {
   state = {
