@@ -4,7 +4,6 @@ import {
   CREATE_ORDER,
   ERROR,
   SCAN_QR,
-  CREATE_BALANCE,
   GET_BALANCE_HISTORY,
   CHANGE_NOTES
 } from '../actions/types'
@@ -61,11 +60,9 @@ export const createOrder = (objCreate) => async (dispatch) => {
 }
 
 export const findUser = (userId) => async (dispatch) => {
-  console.log(userId);
 
   try {
     let { data } = await api.get(`/users/${userId}`)
-    console.log(data, '<<<<<<<');
 
     dispatch({
       type: FIND_USER,
