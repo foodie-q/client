@@ -103,20 +103,20 @@ class Menus extends Component {
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 20 }}>
             <TouchableOpacity
               onPress={this.addToBasket.bind(this, item.id, 'reduce')}
-              style={{ backgroundColor: '#f64747', width: 20, height: 20, borderRadius: 5 }}>
-              <Text style={{ textAlign: 'center', color: '#fff' }}>-</Text>
+              style={{ backgroundColor: '#f64747', width: 25, height: 25, borderRadius: 5 }}>
+              <Text style={{ textAlign: 'center', color: '#fff', fontSize: 14 }}>-</Text>
             </TouchableOpacity>
             <Text style={{ textAlign: 'center', marginHorizontal: 10 }}>{item.order}</Text>
             <TouchableOpacity
               onPress={this.addToBasket.bind(this, item.id, 'add')}
-              style={{ backgroundColor: '#f64747', width: 20, height: 20, borderRadius: 5 }}>
-              <Text style={{ textAlign: 'center', color: '#fff' }}>+</Text>
+              style={{ backgroundColor: '#f64747', width: 25, height: 25, borderRadius: 5 }}>
+              <Text style={{ textAlign: 'center', color: '#fff', fontSize: 14 }}>+</Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity
-            style={{ backgroundColor: '#f64747', padding: 5, borderRadius: 10, marginTop: 20 }}
+            style={{ backgroundColor: '#f64747', padding: 10, borderRadius: 10, marginTop: 20 }}
             onPress={() => this.setModalVisible(true, item.id, item.notes)}>
-            <Text style={{ fontSize: 10, color: '#fff', textAlign: 'center' }}>
+            <Text style={{ fontSize: 12, color: '#fff', textAlign: 'center' }}>
               ADD NOTES
           </Text>
           </TouchableOpacity>
@@ -126,7 +126,7 @@ class Menus extends Component {
         return (<TouchableOpacity
           style={{ backgroundColor: '#f64747', padding: 5, borderRadius: 10, marginTop: 20 }}
           onPress={this.addToBasket.bind(this, item.id, 'add')}>
-          <Text style={{ fontSize: 10, color: '#fff', textAlign: 'center' }}>
+          <Text style={{ fontSize: 12, color: '#fff', textAlign: 'center' }}>
             ADD TO BASKET
           </Text>
         </TouchableOpacity>)
@@ -137,7 +137,7 @@ class Menus extends Component {
         <View style={{ flex: 1 }}>
           <View style={{ flex: 1 }}>
             <FlatList data={this.props.menus} renderItem={({ item }) => (
-              <TouchableOpacity
+              <View
                 style={{
                   flex: 1,
                   flexDirection: "row",
@@ -145,7 +145,7 @@ class Menus extends Component {
                   paddingHorizontal: 10
                 }}
                 key={item.id}>
-                <Image source={{ uri: item.image }} style={{ width: 100, height: 100, borderRadius: 5 }} />
+                <Image source={{ uri: item.image }} style={{ width: 110, height: 110, borderRadius: 5 }} />
                 <View style={{ flex: 1.5, paddingLeft: 10 }}>
                   <Text>{item.name}</Text>
                   <Text style={{ fontSize: 10, color: 'grey' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus facilisis.</Text>
@@ -154,7 +154,7 @@ class Menus extends Component {
                   <Text style={{ textAlign: 'center' }}>{this.changeToCurrency(item.price)}</Text>
                   {checkItem(item)}
                 </View>
-              </TouchableOpacity>
+              </View>
             )}
               keyExtractor={(item) => item.id}
             />
