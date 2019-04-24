@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Text, View, StyleSheet, Alert, TouchableOpacity } from 'react-native'
+import React, {Component} from 'react'
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import TimePicker from 'react-native-simple-time-picker'
 
 export default class ReserveTable extends Component {

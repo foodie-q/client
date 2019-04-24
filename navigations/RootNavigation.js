@@ -1,10 +1,8 @@
 import React from 'react'
-import {Text, TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
-import {createAppContainer, createMaterialTopTabNavigator, createStackNavigator, StackNavigator} from 'react-navigation'
+import {createAppContainer, createMaterialTopTabNavigator, createStackNavigator} from 'react-navigation'
 
 import {bottomBarNav} from '../navigations/AuthNavigation'
-
 // screens
 import Home from '../screens/Home'
 import Orders from '../screens/Orders'
@@ -41,16 +39,22 @@ const HomeNavigator = createStackNavigator({
   Payment: {
     screen: Payment
   }
-})
+});
 
 const ProfileNavigator = createStackNavigator({
   Profile: {
-    screen: Profile
+    screen: Profile,
+    navigationOptions: {
+      title: 'Profile'
+    }
   },
   TopUpSaldo: {
-    screen: TopUpSaldo
+    screen: TopUpSaldo,
+    navigationOptions: {
+      title: 'Topup Balance'
+    }
   }
-})
+});
 
 const OrdersNavigator = createStackNavigator({
   Orders: {
@@ -106,21 +110,21 @@ const RootNavigation = createMaterialTopTabNavigator({
     },
     showIcon: true
   }
-})
+});
 
 const NavigationRoot = createStackNavigator({
-  CustomerAuthLogin: {
+  AuthLogin: {
     screen: bottomBarNav
   },
   Customer: {
     screen: RootNavigation
   }
-},{
+}, {
   initialRouteName: 'Customer',
   headerMode: 'none',
   navigationOptions: {
     headerVisible: false,
   }
-})
+});
 
 export default createAppContainer(NavigationRoot)

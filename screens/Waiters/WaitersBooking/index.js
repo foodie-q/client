@@ -6,15 +6,17 @@ import {
   LayoutAnimation,
   Linking,
   StatusBar,
-  StyleSheet,
   Text,
   TouchableOpacity,
+  Vibration,
   View
 } from 'react-native';
 import {BarCodeScanner, Permissions} from 'expo';
 import {scanQR} from '../../../store/actions/api'
 import {dbOrders} from "../../../helpers/firebase";
 import Loading from "../../../components/Loading";
+
+import styles from './styles'
 
 class WaitersBooking extends Component {
   state = {
@@ -47,6 +49,7 @@ class WaitersBooking extends Component {
         try {
           console.log(typeof result.data, 'ini data');
           let data = JSON.parse(result.data);
+          Vibration.vibrate(500);
           this.setState({
             loading: true
           });
@@ -154,40 +157,6 @@ class WaitersBooking extends Component {
     );
   };
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#000',
-  },
-  bottomBar: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    padding: 15,
-    flexDirection: 'row',
-  },
-  url: {
-    flex: 1,
-  },
-  urlText: {
-    color: '#fff',
-    fontSize: 20,
-  },
-  cancelButton: {
-    marginLeft: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  cancelButtonText: {
-    color: 'rgba(255,255,255,0.8)',
-    fontSize: 18,
-  },
-});
 
 const mapStateToProps = state => ({
   validQR: state.api.validQR
