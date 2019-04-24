@@ -54,6 +54,12 @@ export function register(email, password, name, role) {
         role
       })
       .then(({data}) => {
+        try {
+          localStorage.setItem('userId', data.uid || '');
+          localStorage.setItem('role', data.role);
+        } catch (e) {
+          console.log(e.message)
+        }
         dispatch(sessionSuccess(data))
       })
       .catch(err => {

@@ -29,10 +29,10 @@ class WaitersDetailCustomer extends Component {
     const {users: {name, table}} = this.state;
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text>{name}</Text>
-        <Text style={{
-          fontSize: 50
-        }}>{table}</Text>
+        <Text>Please, guide Mr/Mrs.</Text>
+        <Text style={{fontWeight: 'bold', fontSize: 20, marginTop: 10, marginBottom: 20}}>{name}</Text>
+        <Text>to table's Number </Text>
+        <Text style={{fontWeight: 'bold', fontSize: 70}}>{table}</Text>
       </View>
     );
   }
