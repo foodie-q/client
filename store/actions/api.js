@@ -17,7 +17,7 @@ export const fetchMenus = () => async (dispatch) => {
   let {data} = await api.get('/menus');
 
   if (data) {
-    payload = data.map(menu => ({...menu, order: 0}))
+    payload = data.map(menu => ({ ...menu, order: 0, notes: '' }))
   }
   dispatch({
     type: FETCH_MENUS,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View, TextInput, Modal } from 'react-native'
 import { fetchMenus, orderFood } from '../store/actions/api'
 
 class Menus extends Component {
@@ -8,7 +8,8 @@ class Menus extends Component {
     orders: [],
     modalVisible: false,
     saldo: 0,
-    from: ''
+    from: '',
+    notes: '',
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -30,6 +31,10 @@ class Menus extends Component {
     })
     await this.props.fetchMenus()
     await this.props.navigation.setParams({ saldo: this.props.saldo })
+  }
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
   }
 
   changeToCurrency(input) {
@@ -72,19 +77,35 @@ class Menus extends Component {
   render() {
     let checkItem = (item) => {
       if (item.order) {
-        return (<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 20 }}>
-          <TouchableOpacity
-            onPress={this.addToBasket.bind(this, item.id, 'reduce')}
-            style={{ backgroundColor: '#f64747', width: 20, height: 20, borderRadius: 5 }}>
-            <Text style={{ textAlign: 'center', color: '#fff' }}>-</Text>
-          </TouchableOpacity>
-          <Text style={{ textAlign: 'center', marginHorizontal: 10 }}>{item.order}</Text>
-          <TouchableOpacity
-            onPress={this.addToBasket.bind(this, item.id, 'add')}
-            style={{ backgroundColor: '#f64747', width: 20, height: 20, borderRadius: 5 }}>
-            <Text style={{ textAlign: 'center', color: '#fff' }}>+</Text>
-          </TouchableOpacity>
-        </View>)
+        return (<View style={{ flex: 1 }}>
+          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 20 }}>
+            <TouchableOpacity
+              onPress={this.addToBasket.bind(this, item.id, 'reduce')}
+              style={{ backgroundColor: '#f64747', width: 20, height: 20, borderRadius: 5 }}>
+              <Text style={{ textAlign: 'center', color: '#fff' }}>-</Text>
+            </TouchableOpacity>
+            <Text style={{ textAlign: 'center', marginHorizontal: 10 }}>{item.order}</Text>
+            <TouchableOpacity
+              onPress={this.addToBasket.bind(this, item.id, 'add')}
+              style={{ backgroundColor: '#f64747', width: 20, height: 20, borderRadius: 5 }}>
+              <Text style={{ textAlign: 'center', color: '#fff' }}>+</Text>
+            </TouchableOpacity>
+          </View>
+          <TextInput
+            style={{
+              flex: 1,
+              backgroundColor: '#f64747',
+              color: '#fff',
+              height: 20,
+              marginTop: 5,
+              borderRadius: 5,
+              padding: 5,
+            }}
+            onChangeText={text => item.notes = text}
+            value={item.notes}
+          />
+        </View>
+        )
       } else {
         return (<TouchableOpacity
           style={{ backgroundColor: '#f64747', padding: 5, borderRadius: 10, marginTop: 20 }}
@@ -125,28 +146,24 @@ class Menus extends Component {
           {
             this.checkOrder()
           }
-          {/* <View style={{ flex: 0.5 }}>
+          <TouchableOpacity onPress={() => this.setState({ modalVisible: true })}>
+            <Text>Show Modal</Text>
+          </TouchableOpacity>
+          {/* <View style={{ marginTop: 70 }}> */}
             <Modal
               animationType="slide"
               transparent={false}
               visible={this.state.modalVisible}
               onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
+                this.setModalVisible(!this.state.modalVisible);                
               }}>
-              <View style={{ marginTop: 22, height: '25%', borderWidth: 2 }}>
+              <View style={{ marginTop: 80, height: '25%', borderWidth: 2 }}>
                 <View>
                   <Text>Hello World!</Text>
-
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.setModalVisible(!this.state.modalVisible);
-                    }}>
-                    <Text>Hide Modal</Text>
-                  </TouchableOpacity>
                 </View>
               </View>
             </Modal>
-          </View> */}
+          {/* </View> */}
         </View>
 
 
