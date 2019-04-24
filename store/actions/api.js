@@ -1,14 +1,14 @@
 import api from '../../helpers/api/server';
 import {
-  FETCH_MENUS,
-  ORDER_FOOD,
-  GET_BALANCE,
-  CREATE_ORDER,
-  FIND_USER,
-  ERROR,
-  SCAN_QR,
   CREATE_BALANCE,
-  GET_BALANCE_HISTORY
+  CREATE_ORDER,
+  ERROR,
+  FETCH_MENUS,
+  FIND_USER,
+  GET_BALANCE,
+  GET_BALANCE_HISTORY,
+  ORDER_FOOD,
+  SCAN_QR
 } from '../actions/types'
 
 
@@ -97,8 +97,8 @@ export const findUser = (userId) => async (dispatch) => {
 
 export const scanQR = (object) => async (dispatch) => {
   try {
-    let valid = false
-    let {data} = await api.post('/qr', {...object})
+    let valid = false;
+    let {data} = await api.post('/qr', {...object});
     if (+data.valid) {
       valid = true
     }
@@ -107,6 +107,7 @@ export const scanQR = (object) => async (dispatch) => {
       payload: valid
     })
   } catch (error) {
+    console.log(error, 'ini scanQR');
     dispatch({
       type: ERROR,
       payload: error.message

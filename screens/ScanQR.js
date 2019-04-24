@@ -1,57 +1,82 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { Alert, Linking, Dimensions, LayoutAnimation, Text, View, StatusBar, StyleSheet, TouchableOpacity } from 'react-native';
-import { BarCodeScanner, Permissions } from 'expo';
-import { scanQR } from '../store/actions/api'
+import React, {Component} from 'react';
+import {connect} from 'react-redux'
+import {
+  Alert,
+  Dimensions,
+  LayoutAnimation,
+  Linking,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Vibration,
+  View
+} from 'react-native';
+import {BarCodeScanner, Permissions} from 'expo';
+import {scanQR} from '../store/actions/api'
 import localStorage from '../helpers/localStorage'
+import Loading from "../components/Loading";
 
 class ScanQR extends Component {
   state = {
     hasCameraPermission: null,
     lastScannedUrl: null,
+    loading: false,
   };
 
   componentDidMount() {
     this._requestCameraPermission();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.validQR) {
-      this.props.navigation.navigate('Menus')
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.validQR !== this.props.validQR || this.state.lastScannedUrl !== prevState.lastScannedUrl) {
+      if (this.props.validQR) {
+        this.props.validQR = false;
+        this.props.navigation.replace('Menus');
+      }
+      this.setState({
+        loading: false
+      });
     }
+
   }
 
   _requestCameraPermission = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    const {status} = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({
       hasCameraPermission: status === 'granted',
     });
   };
 
   _handleBarCodeRead = async result => {
-    if (result.data !== this.state.lastScannedUrl) {
+    if (result.data !== this.state.lastScannedUrl && !this.state.loading) {
       LayoutAnimation.spring();
       if (+result.data) {
+        Vibration.vibrate(500);
+        this.setState({
+          loading: true
+        });
         this.props.scanQR({
           userId: await localStorage.getItem('userId'),
           table: +result.data
-        })
+        });
       }
-
-      this.setState({ lastScannedUrl: result.data });
+      this.setState({lastScannedUrl: result.data});
     }
   };
 
   render() {
+    if (this.state.loading) return <Loading/>;
+
     return (
       <View style={styles.container}>
 
         {this.state.hasCameraPermission === null
           ? <Text>Requesting for camera permission</Text>
           : this.state.hasCameraPermission === false
-            ? <Text style={{ color: '#fff' }}>
+            ? <Text style={{color: '#fff'}}>
               Camera permission is not granted
-                </Text>
+            </Text>
             : <BarCodeScanner
               onBarCodeRead={this._handleBarCodeRead}
               style={{
@@ -62,7 +87,7 @@ class ScanQR extends Component {
 
         {this._maybeRenderUrl()}
 
-        <StatusBar hidden />
+        <StatusBar hidden/>
       </View>
     );
   }
@@ -76,14 +101,17 @@ class ScanQR extends Component {
           text: 'Yes',
           onPress: () => Linking.openURL(this.state.lastScannedUrl),
         },
-        { text: 'No', onPress: () => { } },
+        {
+          text: 'No', onPress: () => {
+          }
+        },
       ],
-      { cancellable: false }
+      {cancellable: false}
     );
   };
 
   _handlePressCancel = () => {
-    this.setState({ lastScannedUrl: null });
+    this.setState({lastScannedUrl: null});
   };
 
   _maybeRenderUrl = () => {
