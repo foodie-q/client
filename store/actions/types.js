@@ -7,4 +7,9 @@ export const SCAN_QR = 'SCAN_QR'
 export const SCAN_QR_LOADING = 'SCAN_QR_LOADING'
 export const CREATE_BALANCE = 'CREATE_BALANCE'
 export const GET_BALANCE_HISTORY = 'GET_BALANCE_HISTORY'
+<<<<<<< HEAD
 export const ERROR = 'ERROR'
+=======
+export const CHANGE_NOTES = 'CHANGE_NOTES'
+export const ERROR = 'ERROR'
+>>>>>>> added modal to every menu
