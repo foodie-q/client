@@ -98,6 +98,7 @@ const RootNavigation = createMaterialTopTabNavigator({
 }, {
   initialRouteName: 'Home',
   tabBarPosition: 'bottom',
+  lazy: true,
   tabBarOptions: {
     activeTintColor: '#f64747',
     inactiveTintColor: 'grey',
