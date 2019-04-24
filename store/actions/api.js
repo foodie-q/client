@@ -6,8 +6,10 @@ import {
   ERROR,
   FETCH_MENUS,
   GET_BALANCE_HISTORY,
-  ORDER_FOOD,
-  SCAN_QR
+  CHANGE_NOTES,
+  FIND_USER,
+  FETCH_MENUS,
+  ORDER_FOOD
 } from '../actions/types'
 
 
@@ -62,7 +64,8 @@ export const createOrder = (objCreate) => async (dispatch) => {
 }
 
 export const findUser = (userId) => async (dispatch) => {
-
+  console.log(userId, '<<<<<<<<<');
+  
   try {
     let {data} = await api.get(`/users/${userId}`)
 
@@ -71,6 +74,8 @@ export const findUser = (userId) => async (dispatch) => {
       payload: data
     })
   } catch (error) {
+    console.log(error, '<<<<<<< ini error');
+    
     dispatch({
       type: ERROR,
       payload: error.message

@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import React, { Component } from 'react'
+import { StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native'
 import TimePicker from 'react-native-simple-time-picker'
 
 export default class ReserveTable extends Component {
@@ -21,18 +21,18 @@ export default class ReserveTable extends Component {
   }
 
   submitArrival() {
-    // if (this.state.selectedHours < (new Date().getHours() + 2)) {
-    //   Alert.alert('Arrival Time should be 2 hours from now.')
-    // }
-    // else if (this.state.selectedHours > 20) {
-    //   Alert.alert('Sorry, Reserve Table is only available until 8 P.M.')
-    // }
-    // else if (this.state.selectedHours === 20 && this.state.selectedMinutes > 0) {
-    //   Alert.alert('Sorry, Reserve Table is only available until 8 P.M.')
-    // }
-    // else {
-      this.props.navigation.navigate('Menus', { from: 'reserve' })
-    // }
+    if (this.state.selectedHours < (new Date().getHours() + 2)) {
+      Alert.alert('Arrival Time should be 2 hours from now.')
+    }
+    else if (this.state.selectedHours > 20) {
+      Alert.alert('Sorry, Reserve Table is only available until 8 P.M.')
+    }
+    else if (this.state.selectedHours === 20 && this.state.selectedMinutes > 0) {
+      Alert.alert('Sorry, Reserve Table is only available until 8 P.M.')
+    }
+    else {
+      this.props.navigation.navigate('Menus', { from: 'reserve', arrival: { hours: this.state.selectedHours, minutes: this.state.selectedMinutes } })
+    }
   }
 
   render() {
