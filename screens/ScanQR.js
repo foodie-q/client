@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import {
   Alert,
   Dimensions,
@@ -12,8 +12,8 @@ import {
   Vibration,
   View
 } from 'react-native';
-import {BarCodeScanner, Permissions} from 'expo';
-import {scanQR} from '../store/actions/api'
+import { BarCodeScanner, Permissions } from 'expo';
+import { scanQR } from '../store/actions/api'
 import localStorage from '../helpers/localStorage'
 import Loading from "../components/Loading";
 
@@ -42,7 +42,7 @@ class ScanQR extends Component {
   }
 
   _requestCameraPermission = async () => {
-    const {status} = await Permissions.askAsync(Permissions.CAMERA);
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({
       hasCameraPermission: status === 'granted',
     });
@@ -65,12 +65,12 @@ class ScanQR extends Component {
           table: +result.data
         });
       }
-      this.setState({lastScannedUrl: result.data});
+      this.setState({ lastScannedUrl: result.data });
     }
   };
 
   render() {
-    if (this.state.loading) return <Loading/>;
+    if (this.state.loading) return <Loading />;
 
     return (
       <View style={styles.container}>
@@ -78,7 +78,7 @@ class ScanQR extends Component {
         {this.state.hasCameraPermission === null
           ? <Text>Requesting for camera permission</Text>
           : this.state.hasCameraPermission === false
-            ? <Text style={{color: '#fff'}}>
+            ? <Text style={{ color: '#fff' }}>
               Camera permission is not granted
             </Text>
             : <BarCodeScanner
@@ -91,7 +91,7 @@ class ScanQR extends Component {
 
         {this._maybeRenderUrl()}
 
-        <StatusBar hidden/>
+        <StatusBar hidden />
       </View>
     );
   }
@@ -110,12 +110,12 @@ class ScanQR extends Component {
           }
         },
       ],
-      {cancellable: false}
+      { cancellable: false }
     );
   };
 
   _handlePressCancel = () => {
-    this.setState({lastScannedUrl: null});
+    this.setState({ lastScannedUrl: null });
   };
 
   _maybeRenderUrl = () => {

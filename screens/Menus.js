@@ -11,7 +11,8 @@ class Menus extends Component {
     saldo: 0,
     from: '',
     menuNotes: '',
-    menuId: ''
+    menuId: '',
+    arrival: ''
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -28,9 +29,17 @@ class Menus extends Component {
   async componentDidMount() {
     const { navigation } = this.props
     const from = navigation.getParam('from')
-    this.setState({
-      from
-    })
+    const arrival = navigation.getParam('arrival')
+    if (arrival) {
+      this.setState({
+        from,
+        arrival
+      })
+    } else {
+      this.setState({
+        from
+      })
+    }
     await this.props.fetchMenus()
     await this.props.navigation.setParams({ saldo: this.props.saldo })
   }
@@ -69,7 +78,7 @@ class Menus extends Component {
     if (haveOrder) {
       return (
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('Payment', { orders: this.props.menus, from: this.state.from })}
+          onPress={() => this.props.navigation.navigate('Payment', { orders: this.props.menus, from: this.state.from, arrival: this.state.arrival })}
           style={{
             backgroundColor: '#f64747',
             marginTop: 10,
