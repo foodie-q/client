@@ -169,7 +169,7 @@ class Payment extends Component {
           />
         </View>
         {
-          !fromOrderHistory
+          !fromOrderHistory || !this.state.arrival
           && <Text>Estimated Time : {this.state.time}</Text>
         }
         {this.getSubtotal()}
