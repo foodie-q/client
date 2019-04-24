@@ -1,20 +1,22 @@
 import api from '../../helpers/api/server';
 import {
+  CHANGE_NOTES,
   CREATE_BALANCE,
   CREATE_ORDER,
   ERROR,
-  SCAN_QR,
+  FETCH_MENUS,
   GET_BALANCE_HISTORY,
-  CHANGE_NOTES
+  ORDER_FOOD,
+  SCAN_QR
 } from '../actions/types'
 
 
 export const fetchMenus = () => async (dispatch) => {
   let payload = [];
-  let { data } = await api.get('/menus');
+  let {data} = await api.get('/menus');
 
   if (data) {
-    payload = data.map(menu => ({ ...menu, order: 0, notes: '' }))
+    payload = data.map(menu => ({...menu, order: 0, notes: ''}))
   }
   dispatch({
     type: FETCH_MENUS,
@@ -46,7 +48,7 @@ export const orderFood = (list, id, options) => (dispatch) => {
 
 export const createOrder = (objCreate) => async (dispatch) => {
   try {
-    let { data } = await api.post('/users/order', { payload: objCreate })
+    let {data} = await api.post('/users/order', {payload: objCreate})
     dispatch({
       type: CREATE_ORDER,
       payload: data
@@ -62,7 +64,7 @@ export const createOrder = (objCreate) => async (dispatch) => {
 export const findUser = (userId) => async (dispatch) => {
 
   try {
-    let { data } = await api.get(`/users/${userId}`)
+    let {data} = await api.get(`/users/${userId}`)
 
     dispatch({
       type: FIND_USER,
@@ -79,7 +81,7 @@ export const findUser = (userId) => async (dispatch) => {
 export const scanQR = (object) => async (dispatch) => {
   try {
     let valid = false
-    let { data } = await api.post('/qr', { ...object })
+    let {data} = await api.post('/qr', {...object});
     if (+data.valid) {
       valid = true
     }
@@ -98,7 +100,7 @@ export const scanQR = (object) => async (dispatch) => {
 
 export const createBalance = (objCreate) => async (dispatch) => {
   try {
-    let { data } = await api.post('/users/saldo', { payload: objCreate })
+    let {data} = await api.post('/users/saldo', {payload: objCreate})
     dispatch({
       type: CREATE_BALANCE,
       payload: data
@@ -113,7 +115,7 @@ export const createBalance = (objCreate) => async (dispatch) => {
 
 export const getBalanceHistory = (userId) => async (dispatch) => {
   try {
-    let { data } = await api.get(`/users/allbalance/${userId}`)
+    let {data} = await api.get(`/users/allbalance/${userId}`)
 
     dispatch({
       type: GET_BALANCE_HISTORY,

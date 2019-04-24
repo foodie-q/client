@@ -31,14 +31,14 @@ class ScanQR extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.validQR !== this.props.validQR || this.state.lastScannedUrl !== prevState.lastScannedUrl) {
       if (this.props.validQR) {
+        Vibration.vibrate(500);
+        this.setState({
+          loading: false
+        });
         this.props.validQR = false;
         this.props.navigation.replace('Menus');
       }
-      this.setState({
-        loading: false
-      });
     }
-
   }
 
   _requestCameraPermission = async () => {
@@ -52,10 +52,14 @@ class ScanQR extends Component {
     if (result.data !== this.state.lastScannedUrl && !this.state.loading) {
       LayoutAnimation.spring();
       if (+result.data) {
-        Vibration.vibrate(500);
         this.setState({
           loading: true
         });
+        setInterval(()=>{
+          this.setState({
+            loading: false
+          });
+        }, 30000);
         this.props.scanQR({
           userId: await localStorage.getItem('userId'),
           table: +result.data
