@@ -1,6 +1,5 @@
 import api from '../../helpers/api/server';
 import {
-  CHANGE_NOTES,
   CREATE_BALANCE,
   CREATE_ORDER,
   ERROR,
@@ -8,7 +7,6 @@ import {
   GET_BALANCE_HISTORY,
   CHANGE_NOTES,
   FIND_USER,
-  FETCH_MENUS,
   ORDER_FOOD
 } from '../actions/types'
 
