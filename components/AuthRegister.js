@@ -36,7 +36,7 @@ class AuthRegister extends Component {
     email: '',
     password: '',
     name: '',
-    role: ''
+    role: '0'
 
   }
 
@@ -75,15 +75,15 @@ class AuthRegister extends Component {
           value={this.state.name}
         />
 
-        <TextInput
-          style={styles.textInput}
-          placeholder="Role"
-          returnKeyType="next"
-          keyboardType="decimal-pad"
-          autoCapitalize="none"
-          onChangeText={this.handleChange('role')}
-          value={this.state.role}
-        />
+        {/*<TextInput*/}
+        {/*  style={styles.textInput}*/}
+        {/*  placeholder="Role"*/}
+        {/*  returnKeyType="next"*/}
+        {/*  keyboardType="decimal-pad"*/}
+        {/*  autoCapitalize="none"*/}
+        {/*  onChangeText={this.handleChange('role')}*/}
+        {/*  value={this.state.role}*/}
+        {/*/>*/}
 
         <TextInput
           style={styles.textInput}

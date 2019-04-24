@@ -13,8 +13,6 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 0.5,
     borderColor: 'white',
-    minWidth: 170,
-    maxWidth: 200,
     height: 170,
     maxHeight: 320,
     backgroundColor: '#CCC',

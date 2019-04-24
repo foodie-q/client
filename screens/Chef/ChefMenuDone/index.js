@@ -83,7 +83,7 @@ class ChefMenuDone extends Component {
     return (
       <ImageBackground source={{uri: '' + item.image}} style={[styles.listItem]}>
         {
-          item.status + '' !== '0'
+          item.status + '' === '0'
             ? <Text style={{backgroundColor: 'white', opacity: 0.8, height: '100%', width: '100%'}}> </Text>
             : <Text/>
         }
