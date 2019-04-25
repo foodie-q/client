@@ -1,10 +1,11 @@
-import {createAppContainer, createMaterialTopTabNavigator, createStackNavigator} from "react-navigation";
+import React from 'react'
+
+import {createAppContainer, createMaterialTopTabNavigator} from "react-navigation";
 
 import ChefMenuList from '../screens/Chef/ChefMenuList'
 import ChefMenuDone from '../screens/Chef/ChefMenuDone'
 
 import {Constants} from 'expo'
-import {bottomBarNav} from "./AuthNavigation";
 
 const ChefNavigator = createMaterialTopTabNavigator({
   ChefList: {
@@ -29,26 +30,11 @@ const ChefNavigator = createMaterialTopTabNavigator({
     indicatorStyle: {
       backgroundColor: '#fff'
     },
-    style:{
+    style: {
       backgroundColor: '#fff',
       marginTop: Constants.statusBarHeight,
     }
   }
 });
 
-const NavigationRoot = createStackNavigator({
-  AuthLogin: {
-    screen: bottomBarNav
-  },
-  Chef: {
-    screen: ChefNavigator
-  }
-},{
-  initialRouteName: 'Chef',
-  headerMode: 'none',
-  navigationOptions: {
-    headerVisible: false,
-  }
-});
-
-export default createAppContainer(NavigationRoot)
+export default ChefNavigator

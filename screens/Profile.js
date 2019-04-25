@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Dimensions, Text, TouchableOpacity, View} from 'react-native'
 import {Icon} from 'native-base'
-import localStorage from '../helpers/localStorage'
 
 import {NavigationActions, StackActions} from 'react-navigation';
+import {logout} from "../store/Auth/actions";
 
 const resetAction = StackActions.reset({
   index: 0,
@@ -46,8 +46,7 @@ class Profile extends Component {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={async () => {
-            await localStorage.clear();
-            this.props.navigation.dispatch(resetAction)
+            this.props.logout(this.props)
           }}
           style={{backgroundColor: '#f64747', padding: 10, borderRadius: 20, marginTop: 25, width: 300}}>
           <Text style={{textAlign: 'center', color: '#fff'}}>
@@ -64,4 +63,8 @@ const mapStateToProps = state => ({
   saldo: state.api.saldo
 });
 
-export default connect(mapStateToProps)(Profile)
+const mapDispatchToProps = dispatch => ({
+  logout: (props) => dispatch(logout(props))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)

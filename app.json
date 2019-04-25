@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "client",
-    "slug": "client",
+    "name": "QO - QR Order",
+    "slug": "qo",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
@@ -22,8 +22,12 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "package": "com.qo.mobile.ios"
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.qo.mobile.ios"
     },
     "extra": {
       "firebase": {

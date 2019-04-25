@@ -1,9 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Provider } from 'react-redux'
+import {StyleSheet, View} from 'react-native';
+import {Provider} from 'react-redux'
 import store from './store'
 import BeforeHome from './screens/BeforeHome'
-
 
 // Native Base
 import {StyleProvider} from 'native-base'
@@ -16,7 +15,7 @@ export default class App extends React.Component {
       <View style={styles.container}>
         <Provider store={store}>
           <StyleProvider style={getTheme(themes)}>
-              <BeforeHome />
+            <BeforeHome/>
           </StyleProvider>
         </Provider>
       </View>

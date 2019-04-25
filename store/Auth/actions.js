@@ -29,12 +29,11 @@ export function login(email, password) {
       })
       .then(async ({data}) => {
         try {
-          localStorage.setItem('userId', data.uid || '');
-          localStorage.setItem('role', data.role);
+          await localStorage.setItem('userId', data.uid || '');
+          await localStorage.setItem('role', data.role);
         } catch (e) {
           console.log(e.message)
         }
-
         dispatch(sessionSuccess(data))
       })
       .catch(err => {
@@ -53,10 +52,10 @@ export function register(email, password, name, role) {
         name,
         role
       })
-      .then(({data}) => {
+      .then(async ({data}) => {
         try {
-          localStorage.setItem('userId', data.uid || '');
-          localStorage.setItem('role', data.role);
+          await localStorage.setItem('userId', data.uid || '');
+          await localStorage.setItem('role', data.role);
         } catch (e) {
           console.log(e.message)
         }
@@ -69,13 +68,15 @@ export function register(email, password, name, role) {
 
 }
 
-export function logout() {
+export function logout(props) {
   return (dispatch) => {
     dispatch(sessionLoading());
     api
       .get('/users/logout')
-      .then(() => {
-        dispatch(sessionLogout())
+      .then(async () => {
+        await localStorage.clear();
+        dispatch(sessionLogout());
+        props.navigation.navigate('AuthLogin')
       })
       .catch(err => {
         dispatch(sessionError(err.message))

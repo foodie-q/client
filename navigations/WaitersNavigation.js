@@ -1,9 +1,10 @@
-import {createAppContainer, createStackNavigator} from "react-navigation";
+import React from 'react'
+
+import {createStackNavigator} from "react-navigation";
 
 import WaitersHome from "../screens/Waiters/WaitersHome";
 import WaitersBooking from "../screens/Waiters/WaitersBooking";
 import WaitersDetailCustomer from "../screens/Waiters/WaitersDetailCustomer";
-import {bottomBarNav} from "./AuthNavigation";
 
 const WaitersNavigator = createStackNavigator({
   WaitersHome: {
@@ -23,19 +24,4 @@ const WaitersNavigator = createStackNavigator({
   }
 });
 
-const NavigationRoot = createStackNavigator({
-  AuthLogin: {
-    screen: bottomBarNav
-  },
-  Waiters: {
-    screen: WaitersNavigator
-  }
-},{
-  initialRouteName: 'Waiters',
-  headerMode: 'none',
-  navigationOptions: {
-    headerVisible: false,
-  }
-});
-
-export default createAppContainer(NavigationRoot)
+export default WaitersNavigator

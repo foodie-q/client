@@ -1,6 +1,5 @@
 import React from 'react'
 import {createAppContainer, createBottomTabNavigator} from 'react-navigation'
-
 // screens
 import LoginRoute from '../screens/Login'
 import RegisterRoute from '../screens/Register'
@@ -15,6 +14,7 @@ const routeConfigs = {
 };
 
 const tabBarOptions = {
+  initialRouteName: 'Login',
   tabBarOptions: {
     activeTintColor: '#f64747',
     inactiveTintColor: 'grey',
@@ -31,7 +31,7 @@ const tabBarOptions = {
   tabBarPosition: 'bottom'
 };
 
-export const bottomBarNav = createBottomTabNavigator(routeConfigs, tabBarOptions);
+const AuthNavigation = createBottomTabNavigator(routeConfigs, tabBarOptions);
 
 
-export default createAppContainer(bottomBarNav)
+export default AuthNavigation

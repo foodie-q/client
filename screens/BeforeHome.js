@@ -2,9 +2,6 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 
 import RootNavigation from '../navigations/RootNavigation'
-import AuthNavigation from '../navigations/AuthNavigation'
-import ChefNavigator from '../navigations/ChefNavigator'
-import WaitersNavigator from "../navigations/WaitersNavigation";
 
 import localStorage from '../helpers/localStorage';
 
@@ -14,7 +11,13 @@ class BeforeHome extends Component {
   };
 
   componentWillReceiveProps(nextProps, nextContext) {
-    if (this.state.user.role !== nextProps.user.role) {
+    if (!!('' + nextProps.user.role).length) {
+      this.setState({
+        user: {
+          role: ''
+        }
+      })
+    } else if (this.state.user.role !== nextProps.user.role) {
       this.setState({
         user: nextProps.user
       })
@@ -39,17 +42,7 @@ class BeforeHome extends Component {
   }
 
   render() {
-    if (!this.state.user) return <AuthNavigation/>;
-    switch (this.state.user.role + '') {
-      case "0":
-        return <RootNavigation/>;
-      case "1":
-        return <ChefNavigator/>;
-      case "2":
-        return <WaitersNavigator/>;
-      default:
-        return <AuthNavigation/>;
-    }
+    return <RootNavigation/>;
   }
 }
 

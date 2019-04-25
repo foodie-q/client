@@ -3,9 +3,9 @@ import * as types from './actionTypes'
 const initialState = {
   restoring: false,
   loading: false,
-  user: null,
+  user: {role: ''},
   error: null
-}
+};
 
 export default session = (state = initialState, action) => {
   switch (action.type) {
@@ -37,7 +37,12 @@ export default session = (state = initialState, action) => {
         error: action.error
       }
     case types.SESSION_LOGOUT:
-      return initialState
+      return {
+        ...initialState,
+        user: {
+          role: 0
+        }
+      };
     default:
       return state
   }

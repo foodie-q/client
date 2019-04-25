@@ -1,8 +1,6 @@
 import React from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
 import {createAppContainer, createMaterialTopTabNavigator, createStackNavigator} from 'react-navigation'
-
-import {bottomBarNav} from '../navigations/AuthNavigation'
 // screens
 import Home from '../screens/Home'
 import Orders from '../screens/Orders'
@@ -13,6 +11,10 @@ import Menus from '../screens/Menus'
 import Payment from '../screens/Payment'
 import TopUpSaldo from '../screens/TopUpSaldo'
 import OrdersQRCode from "../screens/OrdersQRCode";
+
+import AuthNavigation from '../navigations/AuthNavigation';
+import ChefNavigator from "./ChefNavigator";
+import WaitersNavigator from "./WaitersNavigation";
 
 const HomeNavigator = createStackNavigator({
   Home: {
@@ -115,13 +117,19 @@ const RootNavigation = createMaterialTopTabNavigator({
 
 const NavigationRoot = createStackNavigator({
   AuthLogin: {
-    screen: bottomBarNav
+    screen: AuthNavigation
   },
   Customer: {
     screen: RootNavigation
+  },
+  Chef: {
+    screen: ChefNavigator
+  },
+  Waiters: {
+    screen: WaitersNavigator
   }
 }, {
-  initialRouteName: 'Customer',
+  initialRouteName: 'AuthLogin',
   headerMode: 'none',
   navigationOptions: {
     headerVisible: false,
